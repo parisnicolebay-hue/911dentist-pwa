@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">911Dentist app icon</title>
+  <desc id="desc">White tooth and 911 symbol on a navy and red shield</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d2942"/>
+      <stop offset="1" stop-color="#04111f"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#bg)"/>
+  <path d="M256 60 414 121v117c0 101-63 176-158 218C161 414 98 339 98 238V121L256 60Z" fill="none" stroke="#c82e3a" stroke-width="20"/>
+  <path d="M199 151c-32 12-48 45-38 80 8 29 27 47 29 87 2 30 9 70 28 70 15 0 18-20 24-48 3-16 8-29 14-29s11 13 14 29c6 28 9 48 24 48 19 0 26-40 28-70 2-40 21-58 29-87 10-35-6-68-38-80-22-8-39 4-57 4s-35-12-57-4Z" fill="#fff"/>
+  <rect x="121" y="218" width="270" height="88" rx="24" fill="#c82e3a"/>
+  <text x="256" y="282" text-anchor="middle" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="74" letter-spacing="8">911</text>
+</svg>

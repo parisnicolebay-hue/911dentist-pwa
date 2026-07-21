@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071a2e">
+  <meta name="description" content="Installable access to 911Dentist emergency dental guidance, virtual consults, second opinions, and patient resources.">
+  <meta name="robots" content="noindex,follow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://911dentist.org data:; style-src 'self'; script-src 'self'; connect-src 'self' https://911dentist.org; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; upgrade-insecure-requests">
+  <meta property="og:title" content="911Dentist — Emergency Dental Guidance">
+  <meta property="og:description" content="Know what to do next when dental pain cannot wait.">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://911dentist.org/">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+  <title>911Dentist — Emergency Dental Guidance</title>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="skip">Skip to content</a>
+
+  <header class="site-header">
+    <button class="brand" data-view="home" aria-label="911Dentist home">
+      <img src="icons/icon.svg" alt="" width="44" height="44">
+      <span><b>911DENTIST</b><small data-i18n="brandLine">Dental guidance when every minute matters</small></span>
+    </button>
+    <nav class="desktop-nav" aria-label="Primary navigation"></nav>
+    <div class="header-actions">
+      <button id="languageToggle" class="language-toggle" aria-label="Byt språk till svenska">SV</button>
+      <button class="header-help" data-view="emergency" data-i18n="helpNow">Emergency help</button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section id="home" class="view active" aria-labelledby="homeTitle">
+      <aside class="critical-banner" aria-labelledby="criticalTitle">
+        <div class="section-wrap critical-inner">
+          <span class="critical-mark" aria-hidden="true">!</span>
+          <div>
+            <b id="criticalTitle" data-i18n="criticalTitle">Life-threatening symptoms?</b>
+            <p data-i18n="criticalCopy">Trouble breathing or swallowing, rapidly spreading facial swelling, uncontrolled bleeding, or major trauma require emergency medical care now.</p>
+          </div>
+          <div class="emergency-numbers">
+            <a href="tel:911" data-i18n="call911">Call 911 — US</a>
+            <a href="tel:112" data-i18n="call112">Call 112 — Sweden/EU</a>
+          </div>
+        </div>
+      </aside>
+
+      <div class="hero section-wrap">
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="urgentGuidance">URGENT DENTAL GUIDANCE</p>
+          <h1 id="homeTitle" data-i18n="heroTitle">Know what to do next when dental pain cannot wait.</h1>
+          <p class="lead" data-i18n="heroCopy">Understand warning signs, find safe next steps, and continue to virtual consultation or second-opinion options on 911Dentist.org.</p>
+          <div class="button-row">
+            <button class="button primary" data-view="emergency"><span data-i18n="startEmergency">Start emergency guidance</span><span aria-hidden="true">→</span></button>
+            <button class="button secondary" data-view="consult" data-i18n="consultOptions">View consult options</button>
+          </div>
+          <ul class="trust-list" aria-label="App privacy and safety">
+            <li data-i18n="trustEducation">Education-first guidance</li>
+            <li data-i18n="trustNoDiagnosis">No automated diagnosis</li>
+            <li data-i18n="trustNoData">No patient data stored in this app</li>
+          </ul>
+        </div>
+
+        <div class="decision-panel" aria-labelledby="decisionTitle">
+          <p class="panel-label" data-i18n="firstStep">FIRST STEP</p>
+          <h2 id="decisionTitle" data-i18n="decisionTitle">What best describes the problem?</h2>
+          <div class="quick-list">
+            <a href="https://911dentist.org/tooth-pain/" target="_blank" rel="noopener">
+              <span class="number">01</span><span><b data-i18n="painSwelling">Severe pain or swelling</b><small data-i18n="painSwellingCopy">Possible infection, abscess, or nerve pain</small></span><span aria-hidden="true">→</span>
+            </a>
+            <a href="https://911dentist.org/broken-tooth/" target="_blank" rel="noopener">
+              <span class="number">02</span><span><b data-i18n="brokenTooth">Broken or knocked-out tooth</b><small data-i18n="brokenToothCopy">Time-sensitive dental trauma guidance</small></span><span aria-hidden="true">→</span>
+            </a>
+            <a href="https://911dentist.org/lost-filling-or-crown/" target="_blank" rel="noopener">
+              <span class="number">03</span><span><b data-i18n="lostRestoration">Lost filling or crown</b><small data-i18n="lostRestorationCopy">Protect the area until professional care</small></span><span aria-hidden="true">→</span>
+            </a>
+            <button data-view="emergency">
+              <span class="number">04</span><span><b data-i18n="notSure">I am not sure</b><small data-i18n="notSureCopy">Review warning signs and available next steps</small></span><span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <section class="path-section" aria-labelledby="pathTitle">
+        <div class="section-wrap">
+          <p class="eyebrow light" data-i18n="choosePath">CHOOSE YOUR PATH</p>
+          <h2 id="pathTitle" data-i18n="pathTitle">Three ways to move forward</h2>
+          <div class="path-grid">
+            <button class="path-card" data-view="emergency">
+              <span class="line-icon" aria-hidden="true">01</span>
+              <b data-i18n="emergencyGuidance">Emergency guidance</b>
+              <p data-i18n="emergencyGuidanceCopy">Recognize red flags and understand the safest immediate step.</p>
+              <span class="card-link"><span data-i18n="openGuidance">Open guidance</span> →</span>
+            </button>
+            <button class="path-card" data-view="consult">
+              <span class="line-icon" aria-hidden="true">02</span>
+              <b data-i18n="virtualConsult">Virtual consultation</b>
+              <p data-i18n="virtualConsultCopy">Compare the current $49 written and $149 live options.</p>
+              <span class="card-link"><span data-i18n="compareOptions">Compare options</span> →</span>
+            </button>
+            <a class="path-card" href="https://911dentist.org/dental-second-opinion/" target="_blank" rel="noopener">
+              <span class="line-icon" aria-hidden="true">03</span>
+              <b data-i18n="secondOpinion">Dental second opinion</b>
+              <p data-i18n="secondOpinionCopy">Understand options before major or irreversible dental treatment.</p>
+              <span class="card-link"><span data-i18n="learnMore">Learn more</span> →</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-wrap guide-preview" aria-labelledby="latestTitle">
+        <div class="section-heading">
+          <div><p class="eyebrow" data-i18n="patientResources">PATIENT RESOURCES</p><h2 id="latestTitle" data-i18n="latestGuides">Latest emergency guides</h2></div>
+          <button class="text-button" data-view="guides"><span data-i18n="viewGuides">View guides</span> →</button>
+        </div>
+        <div id="featuredGuides" class="guide-grid" aria-live="polite"></div>
+      </section>
+
+      <section class="section-wrap privacy-strip">
+        <div class="privacy-mark" aria-hidden="true"></div>
+        <div><b data-i18n="privateTitle">This app is a private gateway—not a patient record system.</b><p data-i18n="privateCopy">Forms, payments, accounts, photos, and X-rays open on the existing 911Dentist.org website. This app does not collect or store them.</p></div>
+      </section>
+    </section>
+
+    <section id="emergency" class="view section-wrap page-view" aria-labelledby="emergencyTitle">
+      <p class="eyebrow red" data-i18n="safetyFirst">SAFETY FIRST</p>
+      <h1 id="emergencyTitle" data-i18n="emergencyTitle">Is this a dental emergency?</h1>
+      <p class="lead narrow" data-i18n="emergencyIntro">Use these general warning signs to choose your next step. This information does not diagnose your condition.</p>
+
+      <div class="danger-card">
+        <span class="critical-mark large" aria-hidden="true">!</span>
+        <div><h2 data-i18n="getMedicalHelp">Get emergency medical help now</h2><p data-i18n="getMedicalHelpCopy">Call emergency services or go to the nearest emergency department for breathing or swallowing difficulty, facial swelling affecting the airway, uncontrolled bleeding, major facial trauma, or symptoms that feel life-threatening.</p></div>
+        <div class="emergency-numbers vertical"><a href="tel:911" data-i18n="call911">Call 911 — US</a><a href="tel:112" data-i18n="call112">Call 112 — Sweden/EU</a></div>
+      </div>
+
+      <div class="section-heading page-heading"><div><p class="eyebrow" data-i18n="dentalNextStep">DENTAL NEXT STEP</p><h2 data-i18n="chooseSituation">Choose the closest situation</h2></div></div>
+      <div class="condition-grid">
+        <a href="https://911dentist.org/tooth-pain/" target="_blank" rel="noopener"><span>01</span><h3 data-i18n="toothPain">Tooth pain</h3><p data-i18n="toothPainCopy">Severe, persistent, throbbing, or night pain.</p><b><span data-i18n="readGuide">Read guide</span> →</b></a>
+        <a href="https://911dentist.org/tooth-infection/" target="_blank" rel="noopener"><span>02</span><h3 data-i18n="infectionSwelling">Infection or swelling</h3><p data-i18n="infectionSwellingCopy">Swelling, drainage, fever, bad taste, or worsening pain.</p><b><span data-i18n="readGuide">Read guide</span> →</b></a>
+        <a href="https://911dentist.org/broken-tooth/" target="_blank" rel="noopener"><span>03</span><h3 data-i18n="brokenTrauma">Broken tooth or trauma</h3><p data-i18n="brokenTraumaCopy">Cracks, fractures, or a knocked-out tooth.</p><b><span data-i18n="readGuide">Read guide</span> →</b></a>
+        <a href="https://911dentist.org/lost-filling-or-crown/" target="_blank" rel="noopener"><span>04</span><h3 data-i18n="lostFilling">Lost filling or crown</h3><p data-i18n="lostFillingCopy">A missing restoration, sensitivity, or sharp edge.</p><b><span data-i18n="readGuide">Read guide</span> →</b></a>
+      </div>
+
+      <section class="temporary-steps" aria-labelledby="temporaryTitle">
+        <div><p class="eyebrow light" data-i18n="untilCare">UNTIL YOU RECEIVE CARE</p><h2 id="temporaryTitle" data-i18n="temporaryTitle">General temporary steps</h2></div>
+        <ol>
+          <li><span>1</span><p data-i18n="stepRinse">Rinse gently with warm water.</p></li>
+          <li><span>2</span><p data-i18n="stepChew">Avoid chewing on the affected side.</p></li>
+          <li><span>3</span><p data-i18n="stepCold">Use a cold compress on the outside of the face for swelling.</p></li>
+          <li><span>4</span><p data-i18n="stepAspirin">Do not place aspirin directly on the tooth or gums.</p></li>
+        </ol>
+        <p class="safety-note" data-i18n="temporaryDisclaimer">These are temporary educational measures, not treatment. Do not delay urgent professional care.</p>
+      </section>
+
+      <div class="center-actions">
+        <a class="button primary" href="https://911dentist.org/emergency-dentist/" target="_blank" rel="noopener" data-i18n="continueEmergency">Continue on 911Dentist.org</a>
+        <button class="button secondary" data-view="consult" data-i18n="consultOptions">View consult options</button>
+      </div>
+    </section>
+
+    <section id="consult" class="view section-wrap page-view" aria-labelledby="consultTitle">
+      <p class="eyebrow red" data-i18n="professionalGuidance">PROFESSIONAL GUIDANCE</p>
+      <h1 id="consultTitle" data-i18n="consultTitle">Choose your consultation path</h1>
+      <p class="lead narrow" data-i18n="consultIntro">Review the current options here. Payment, intake, and any uploads continue securely on 911Dentist.org.</p>
+
+      <div class="pricing-grid">
+        <article class="price-card">
+          <p class="price-label" data-i18n="flexible">FLEXIBLE OPTION</p>
+          <h2 data-i18n="simpleConsult">Simple Consult</h2>
+          <p class="price"><span>$</span>49 <small data-i18n="oneTime">one-time</small></p>
+          <p data-i18n="simpleIntro">Submit symptoms and photos for written guidance—no live call required.</p>
+          <ul><li data-i18n="simpleItem1">Written response within hours</li><li data-i18n="simpleItem2">Urgency and next-step guidance</li><li data-i18n="simpleItem3">Best for mild or non-urgent concerns</li></ul>
+          <a class="button secondary full" href="https://911dentist.org/secure-your-consultation/" target="_blank" rel="noopener" data-i18n="viewSimple">View Simple Consult</a>
+        </article>
+        <article class="price-card featured">
+          <p class="price-label" data-i18n="recommended">RECOMMENDED</p>
+          <h2 data-i18n="liveConsult">Live Video Consult</h2>
+          <p class="price"><span>$</span>149 <small data-i18n="oneTime">one-time</small></p>
+          <p data-i18n="liveIntro">Speak directly with a dentist by video for urgent or more complex concerns.</p>
+          <ul><li data-i18n="liveItem1">Live video conversation</li><li data-i18n="liveItem2">Detailed symptom discussion</li><li data-i18n="liveItem3">Guidance on appropriate next steps</li></ul>
+          <a class="button primary full" href="https://911dentist.org/secure-your-consultation/" target="_blank" rel="noopener" data-i18n="viewLive">View Live Consult</a>
+        </article>
+        <article class="price-card snapshot">
+          <p class="price-label" data-i18n="beforeTreatment">BEFORE TREATMENT</p>
+          <h2 data-i18n="prioritySnapshot">Priority Second Opinion</h2>
+          <p class="price"><span>$</span>29 <small data-i18n="currentOption">current option</small></p>
+          <p data-i18n="snapshotIntro">For questions about X-rays, treatment plans, root canals, extractions, or implants.</p>
+          <ul><li data-i18n="snapshotItem1">Dentist-developed written guidance</li><li data-i18n="snapshotItem2">Treatment-option clarification</li><li data-i18n="snapshotItem3">Does not replace emergency care</li></ul>
+          <a class="button secondary full" href="https://911dentist.org/dental-second-opinion/" target="_blank" rel="noopener" data-i18n="viewSecondOpinion">View Second Opinion</a>
+        </article>
+      </div>
+
+      <div class="handoff-card">
+        <div class="privacy-mark" aria-hidden="true"></div>
+        <div><b data-i18n="secureHandoff">Secure handoff to 911Dentist.org</b><p data-i18n="secureHandoffCopy">This app does not process payments or accept medical information. The selected option opens the existing website workflow.</p></div>
+      </div>
+    </section>
+
+    <section id="guides" class="view section-wrap page-view" aria-labelledby="guidesTitle">
+      <p class="eyebrow red" data-i18n="learnPrepare">LEARN & PREPARE</p>
+      <h1 id="guidesTitle" data-i18n="guidesTitle">Dental emergency guides</h1>
+      <p class="lead narrow" data-i18n="guidesIntro">Search recent public articles from 911Dentist.org. Articles currently open in English; the app navigation and safety information are available in English and Swedish.</p>
+      <label class="search"><span class="sr-only" data-i18n="searchGuides">Search guides</span><input id="guideSearch" type="search" placeholder="Search guides" data-i18n-placeholder="searchGuides" autocomplete="off"><span aria-hidden="true"></span></label>
+      <div id="guideGrid" class="guide-grid full-grid" aria-live="polite"></div>
+      <div id="guideNotice" class="notice" hidden><p data-i18n="guidesUnavailable">Recent guides are temporarily unavailable here.</p><a class="button primary" href="https://911dentist.org/blog/" target="_blank" rel="noopener" data-i18n="visitBlog">Visit the 911Dentist blog</a></div>
+    </section>
+
+    <section id="more" class="view section-wrap page-view" aria-labelledby="moreTitle">
+      <p class="eyebrow red" data-i18n="accountInfo">ACCOUNT & INFORMATION</p>
+      <h1 id="moreTitle">911Dentist</h1>
+      <div class="about-card"><img src="icons/icon.svg" alt="" width="72" height="72"><div><h2 data-i18n="aboutTitle">Clearer decisions in the first moments of a dental emergency.</h2><p data-i18n="aboutCopy">911Dentist provides safety-first educational guidance and optional pathways to virtual consultation and dental second opinions.</p></div></div>
+
+      <button id="installButton" class="install-card"><span class="install-arrow" aria-hidden="true">↓</span><span><b data-i18n="install">Install 911Dentist</b><small data-i18n="installCopy">Add the app to your phone home screen</small></span><span aria-hidden="true">→</span></button>
+      <p id="iosInstall" class="help install-help" hidden data-i18n="iosInstall">On iPhone: tap Share, then Add to Home Screen.</p>
+
+      <div class="link-group">
+        <h2 data-i18n="patientAccount">Patient account</h2>
+        <div class="link-list">
+          <a href="https://911dentist.org/patient-registration/" target="_blank" rel="noopener"><span aria-hidden="true">+</span><b data-i18n="createAccount">Create patient account</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/login/" target="_blank" rel="noopener"><span aria-hidden="true">•</span><b data-i18n="login">Log in</b><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+
+      <div class="link-group">
+        <h2 data-i18n="moreInformation">More information</h2>
+        <div class="link-list">
+          <a href="https://911dentist.org/get-the-dental-emergency-survival-guide/" target="_blank" rel="noopener"><span aria-hidden="true">01</span><b data-i18n="freeGuide">Free Dental Emergency Survival Guide</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/for-dentists/" target="_blank" rel="noopener"><span aria-hidden="true">02</span><b data-i18n="forDentists">For dentists</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/about/" target="_blank" rel="noopener"><span aria-hidden="true">03</span><b data-i18n="aboutUs">About 911Dentist</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/contact/" target="_blank" rel="noopener"><span aria-hidden="true">04</span><b data-i18n="contact">Contact</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/privacy-policy/" target="_blank" rel="noopener"><span aria-hidden="true">05</span><b data-i18n="privacy">Privacy policy</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/terms-of-service/" target="_blank" rel="noopener"><span aria-hidden="true">06</span><b data-i18n="terms">Terms of service</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/medical-educational-disclaimer/" target="_blank" rel="noopener"><span aria-hidden="true">07</span><b data-i18n="disclaimer">Medical disclaimer</b><span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+      <p class="version">911Dentist App · Version 1.0</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand"><img src="icons/icon.svg" alt="" width="46" height="46"><div><b>911DENTIST</b><span data-i18n="footerLine">Emergency dental guidance and virtual consult pathways</span></div></div>
+    <p data-i18n="footerDisclaimer">Educational information only. Not a diagnosis or substitute for an in-person examination.</p>
+    <div><a href="https://911dentist.org/privacy-policy/" target="_blank" rel="noopener" data-i18n="privacy">Privacy policy</a><a href="https://911dentist.org/medical-educational-disclaimer/" target="_blank" rel="noopener" data-i18n="disclaimer">Medical disclaimer</a></div>
+    <small>© 2026 911Dentist.org</small>
+  </footer>
+
+  <nav class="mobile-nav" aria-label="Mobile navigation"></nav>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
