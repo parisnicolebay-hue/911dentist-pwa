@@ -1,0 +1,46 @@
+{
+ "page": {
+  "title": "Dental X-ray Decoder",
+  "slug": "dental-xray-decoder",
+  "copyLayoutFrom": 2970,
+  "seoTitle": "Dental X-ray Decoder: Bitewing vs PA vs Panoramic vs CBCT",
+  "seoDescription": "See what bitewings, periapicals, panoramic X-rays and cone-beam CT each show and miss, with real labeled X-rays, radiation doses and typical U.S. prices.",
+  "focusKeyword": "types of dental x-rays"
+ },
+ "block": "dental-xray-decoder-wordpress-block.html",
+ "blockStartsWith": "<!-- 911Dentist Dental X-ray Decoder",
+ "images": [
+  {
+   "key": "bitewing",
+   "file": "dental-xray-bitewing-example.jpg",
+   "title": "Bitewing X-ray example",
+   "alt": "Real bitewing X-ray: the crowns of the upper and lower back teeth meeting in the middle, with the bone between the lower teeth at the bottom edge.",
+   "caption": "Image: \"ZELLFAZE MN01 MP08 010\" by Dr Jeffrey Cross DDS, CC BY-SA 3.0, via Wikimedia Commons. Converted to grayscale and the white background darkened. The edited image is shared under the same license.",
+   "description": "Image: \"ZELLFAZE MN01 MP08 010\" by Dr Jeffrey Cross DDS, CC BY-SA 3.0, via Wikimedia Commons. Converted to grayscale and the white background darkened. The edited image is shared under the same license. Source: https://commons.wikimedia.org/wiki/File:ZELLFAZE_MN01_MP08_010.JPG License: https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  {
+   "key": "periapical",
+   "file": "dental-xray-periapical-example.jpg",
+   "title": "Periapical X-ray example",
+   "alt": "Real periapical X-ray of lower back teeth: molars shown from the crowns down to the root tips, a wisdom tooth at the edge, and the bone around the roots.",
+   "caption": "Image: \"ZELLFAZE MN01 MP16 005\" by Dr Jeffrey Cross DDS, CC BY-SA 3.0, via Wikimedia Commons. Converted to grayscale and the white background darkened. The edited image is shared under the same license.",
+   "description": "Image: \"ZELLFAZE MN01 MP16 005\" by Dr Jeffrey Cross DDS, CC BY-SA 3.0, via Wikimedia Commons. Converted to grayscale and the white background darkened. The edited image is shared under the same license. Source: https://commons.wikimedia.org/wiki/File:ZELLFAZE_MN01_MP16_005.JPG License: https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  {
+   "key": "panoramic",
+   "file": "dental-xray-panoramic-example.jpg",
+   "title": "Panoramic dental X-ray example",
+   "alt": "Real panoramic X-ray of an adult: all the upper and lower teeth in one wide image, bright fillings on the back teeth, the sinuses and nose above and the lower jawbone below.",
+   "caption": "Image: \"Dental Panorama X-ray\" by Farhang Amini, CC BY 4.0, via Wikimedia Commons. Cropped, converted to grayscale and resized.",
+   "description": "Image: \"Dental Panorama X-ray\" by Farhang Amini, CC BY 4.0, via Wikimedia Commons. Cropped, converted to grayscale and resized. Source: https://commons.wikimedia.org/wiki/File:Dental_Panorama_X-ray.jpg License: https://creativecommons.org/licenses/by/4.0/"
+  },
+  {
+   "key": "cbct",
+   "file": "dental-cbct-example.jpg",
+   "title": "Dental cone-beam CT (CBCT) example",
+   "alt": "Real CBCT viewing screen in four parts: a slice of the dental arch seen from above, a slice from the side through the front teeth and the spine, a slice from the front through the jaws, and a 3D model of the skull and teeth.",
+   "caption": "Image: \"CBCT image 01\" by Panda 51, CC BY-SA 4.0, via Wikimedia Commons. Resized and saved as JPEG. The edited image is shared under the same license.",
+   "description": "Image: \"CBCT image 01\" by Panda 51, CC BY-SA 4.0, via Wikimedia Commons. Resized and saved as JPEG. The edited image is shared under the same license. Source: https://commons.wikimedia.org/wiki/File:CBCT_image_01.png License: https://creativecommons.org/licenses/by-sa/4.0/"
+  }
+ ]
+}
