@@ -1,0 +1,493 @@
+<!-- 911Dentist Dental X-ray Decoder, Part 1. Paste into a Custom HTML block. Checked October 2026. Real X-ray images: see Image credits at the end. -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Oswald:wght@500;600&display=swap">
+<style>/* Layout: a radiology "light box" reference. A navy header band, an identifier, four tabs that each open a
+   film-style schematic beside the facts, then a side-by-side table, a log-scale dose chart, notes and sources.
+   Tokens are prefixed (--xrd-) and every rule is scoped under .d911-xrd so it can sit inside WordPress later. */
+:root {
+  --xrd-ground: #eef3f8;
+  --xrd-paper: #ffffff;
+  --xrd-tint: #f5f8fb;
+  --xrd-band: #0d1b2e;
+  --xrd-band-ink: #eef4fa;
+  --xrd-band-muted: #9fb4ca;
+  --xrd-ink: #243447;
+  --xrd-head: #1d3557;
+  --xrd-muted: #56687c;
+  --xrd-line: #d5dfea;
+  --xrd-link: #0b6ea8;
+  --xrd-accent: #0b6ea8;
+  --xrd-red: #b3122b;
+  --xrd-red-bg: #fbe9ec;
+  --xrd-red-line: #f0c3cb;
+  --xrd-amber: #7a4d00;
+  --xrd-amber-bg: #fbeed0;
+  --xrd-grid: #e3eaf2;
+  --xrd-ref: #8a5a00;
+  --xrd-shadow: 0 10px 30px -18px rgba(13, 27, 46, 0.45);
+  --xrd-display: "Oswald", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --xrd-body: "Lato", "Helvetica Neue", Arial, sans-serif;
+}
+
+.d911-xrd { text-align: left; font-family: var(--xrd-body); font-size: 16px; line-height: 1.55; color: var(--xrd-ink); max-width: 1120px; margin: 0 auto; padding-block: 24px 48px; padding-inline: 16px; box-sizing: border-box; display: grid; gap: 28px; }
+.d911-xrd *, .d911-xrd *::before, .d911-xrd *::after { box-sizing: border-box; }
+.d911-xrd [hidden] { display: none !important; }
+.d911-xrd h1, .d911-xrd h2, .d911-xrd h3, .d911-xrd h4 { margin: 0; color: var(--xrd-head); text-wrap: balance; }
+.d911-xrd h2 { font-family: var(--xrd-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; font-size: clamp(1.4rem, 2.6vw, 1.85rem); line-height: 1.1; }
+.d911-xrd h3 { font-size: 1.15rem; font-weight: 900; }
+.d911-xrd h4 { font-family: var(--xrd-display); font-weight: 500; font-size: 0.86rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--xrd-muted); }
+.d911-xrd p, .d911-xrd ul, .d911-xrd ol, .d911-xrd dl, .d911-xrd figure { margin: 0; }
+.d911-xrd a { color: var(--xrd-link); text-underline-offset: 2px; }
+.d911-xrd button { font: inherit; color: inherit; }
+.d911-xrd :focus-visible { outline: 3px solid var(--xrd-link); outline-offset: 2px; border-radius: 6px; }
+.d911-xrd .xrd-nowrap { white-space: nowrap; }
+.d911-xrd .xrd-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.d911-xrd .xrd-k { display: block; font-family: var(--xrd-display); font-weight: 500; font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--xrd-muted); margin-bottom: 2px; }
+.d911-xrd .xrd-sub { color: var(--xrd-muted); max-width: 70ch; }
+.d911-xrd section { display: grid; gap: 14px; min-width: 0; }
+
+/* Header */
+.d911-xrd .xrd-hero { background: var(--xrd-band); color: var(--xrd-band-ink); border-radius: 16px; padding: clamp(22px, 4vw, 40px) clamp(18px, 4vw, 40px); display: grid; gap: 14px; }
+.d911-xrd .xrd-eyebrow { font-family: var(--xrd-display); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--xrd-band-muted); display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.d911-xrd .xrd-tag { border: 1px solid currentColor; border-radius: 999px; padding: 0 9px; }
+.d911-xrd .xrd-hero h1 { color: var(--xrd-band-ink); font-family: var(--xrd-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.01em; line-height: 1.02; font-size: clamp(2rem, 5.2vw, 3.4rem); }
+.d911-xrd .xrd-lede { max-width: 62ch; font-size: 1.08rem; opacity: 0.94; }
+.d911-xrd .xrd-fine { font-size: 0.9rem; color: var(--xrd-band-muted); }
+.d911-xrd .xrd-safety { margin-top: -14px; background: var(--xrd-red-bg); border: 1px solid var(--xrd-red-line); border-radius: 12px; padding: 12px 16px; font-size: 0.95rem; }
+.d911-xrd .xrd-safety strong { color: var(--xrd-red); }
+
+/* Identifier */
+.d911-xrd .xrd-id { background: var(--xrd-paper); border: 1px solid var(--xrd-line); border-radius: 14px; padding: 18px; }
+.d911-xrd .xrd-id-grid { display: grid; gap: 10px; }
+@media (min-width: 680px) { .d911-xrd .xrd-id-grid { grid-template-columns: 1fr 1fr; } }
+.d911-xrd .xrd-id-btn { text-align: left; display: grid; gap: 6px; padding: 14px 16px; border: 1px solid var(--xrd-line); border-radius: 12px; background: var(--xrd-tint); cursor: pointer; min-height: 88px; align-content: space-between; }
+.d911-xrd .xrd-id-btn:hover { border-color: var(--xrd-link); }
+.d911-xrd .xrd-id-btn b { font-family: var(--xrd-display); font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; font-size: 0.9rem; color: var(--xrd-link); }
+
+/* Tabs */
+.d911-xrd .xrd-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+@media (min-width: 760px) { .d911-xrd .xrd-tabs { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.d911-xrd .xrd-tab { text-align: left; display: grid; gap: 2px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--xrd-line); background: var(--xrd-paper); cursor: pointer; }
+.d911-xrd .xrd-tab-name { font-family: var(--xrd-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; font-size: 1.08rem; color: var(--xrd-head); }
+.d911-xrd .xrd-tab-meta { font-size: 0.82rem; color: var(--xrd-muted); }
+.d911-xrd .xrd-tab[aria-selected="true"] { background: var(--xrd-band); border-color: var(--xrd-link); box-shadow: inset 0 -4px 0 var(--xrd-link); }
+.d911-xrd .xrd-tab[aria-selected="true"] .xrd-tab-name { color: var(--xrd-band-ink); }
+.d911-xrd .xrd-tab[aria-selected="true"] .xrd-tab-meta { color: var(--xrd-band-muted); }
+
+/* Panel */
+.d911-xrd .xrd-panel { background: var(--xrd-paper); border: 1px solid var(--xrd-line); border-radius: 16px; padding: clamp(16px, 3vw, 28px); box-shadow: var(--xrd-shadow); gap: 22px; }
+.d911-xrd .xrd-panel-top { display: grid; gap: 22px; }
+@media (min-width: 820px) { .d911-xrd .xrd-panel-top { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); align-items: start; } }
+.d911-xrd .xrd-figure { display: grid; gap: 8px; }
+.d911-xrd .xrd-film { width: 100%; max-width: 380px; height: auto; display: block; border-radius: 12px; }
+.d911-xrd .xrd-figure figcaption { font-size: 0.88rem; color: var(--xrd-muted); max-width: 380px; }
+.d911-xrd .xrd-schem { font-style: italic; }
+.d911-xrd .xrd-intro { display: grid; gap: 14px; min-width: 0; }
+.d911-xrd .xrd-intro h3 { font-family: var(--xrd-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.05; }
+.d911-xrd .xrd-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.d911-xrd .xrd-pill { font-family: var(--xrd-display); font-weight: 500; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; border: 1px solid var(--xrd-line); border-radius: 999px; padding: 1px 10px; color: var(--xrd-head); background: var(--xrd-tint); }
+.d911-xrd .xrd-pill.is-review, .d911-xrd .xrd-review { color: var(--xrd-amber); background: var(--xrd-amber-bg); border-color: transparent; }
+.d911-xrd .xrd-review { justify-self: start; font-family: var(--xrd-display); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 1px 10px; }
+.d911-xrd .xrd-covers { font-size: 1.06rem; }
+.d911-xrd .xrd-onplan p { display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }
+.d911-xrd .xrd-chip { font-weight: 700; font-size: 0.88rem; border: 1px solid var(--xrd-line); border-radius: 6px; padding: 1px 8px; }
+.d911-xrd .xrd-codes { margin-top: 6px; font-size: 0.9rem; color: var(--xrd-muted); gap: 4px 14px !important; }
+.d911-xrd .xrd-codes b { color: var(--xrd-head); font-variant-numeric: tabular-nums; }
+.d911-xrd .xrd-three { display: grid; gap: 18px; }
+@media (min-width: 900px) { .d911-xrd .xrd-three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.d911-xrd .xrd-three section { gap: 8px; align-content: start; border-top: 2px solid var(--xrd-line); padding-top: 12px; }
+.d911-xrd .xrd-three ul { padding-left: 1.1em; display: grid; gap: 6px; }
+.d911-xrd .xrd-facts { display: grid; gap: 12px; }
+@media (min-width: 820px) { .d911-xrd .xrd-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.d911-xrd .xrd-facts > div { background: var(--xrd-tint); border-radius: 12px; padding: 14px 16px; display: grid; gap: 4px; align-content: start; }
+.d911-xrd .xrd-facts dt { font-family: var(--xrd-display); font-weight: 500; font-size: 0.74rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--xrd-muted); }
+.d911-xrd .xrd-facts dd { margin: 0; display: grid; gap: 4px; font-size: 0.93rem; }
+.d911-xrd .xrd-facts strong { font-size: 1.12rem; color: var(--xrd-head); font-variant-numeric: tabular-nums; }
+
+/* Citations */
+.d911-xrd .xrd-cite { white-space: nowrap; font-size: 0.72em; vertical-align: super; line-height: 0; }
+.d911-xrd .xrd-cite a { text-decoration: none; margin-left: 2px; padding: 0 2px; border-radius: 3px; background: var(--xrd-tint); }
+.d911-xrd .xrd-srcline { font-size: 0.82rem; color: var(--xrd-muted); }
+
+/* Table */
+.d911-xrd .xrd-tablewrap { overflow-x: auto; border: 1px solid var(--xrd-line); border-radius: 14px; background: var(--xrd-paper); }
+.d911-xrd .xrd-table { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 0.93rem; }
+.d911-xrd .xrd-table th, .d911-xrd .xrd-table td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--xrd-line); }
+.d911-xrd .xrd-table tr:last-child th, .d911-xrd .xrd-table tr:last-child td { border-bottom: 0; }
+.d911-xrd .xrd-table thead th { font-family: var(--xrd-display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; background: var(--xrd-tint); }
+.d911-xrd .xrd-table tbody th { font-family: var(--xrd-display); font-weight: 500; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--xrd-muted); width: 170px; }
+.d911-xrd .xrd-fmx { background: var(--xrd-paper); border: 1px dashed var(--xrd-line); border-radius: 14px; padding: 16px 18px; gap: 8px; }
+
+/* Chart */
+.d911-xrd .xrd-chartwrap { position: relative; overflow-x: auto; background: var(--xrd-paper); border: 1px solid var(--xrd-line); border-radius: 14px; padding: 8px 6px; }
+.d911-xrd .xrd-chart { display: block; width: 100%; min-width: 680px; height: auto; font-family: var(--xrd-body); }
+.d911-xrd .xrd-grid { stroke: var(--xrd-grid); stroke-width: 1; }
+.d911-xrd .xrd-tick, .d911-xrd .xrd-axis { fill: var(--xrd-muted); font-size: 12px; }
+.d911-xrd .xrd-refline { stroke: var(--xrd-ref); stroke-width: 1.5; stroke-dasharray: 4 4; }
+.d911-xrd .xrd-reflabel { fill: var(--xrd-ref); font-size: 12px; font-weight: 700; paint-order: stroke; stroke: var(--xrd-paper); stroke-width: 5px; stroke-linejoin: round; }
+.d911-xrd .xrd-rowlabel { fill: var(--xrd-ink); font-size: 13px; }
+.d911-xrd .xrd-val { fill: var(--xrd-muted); font-size: 12px; font-variant-numeric: tabular-nums; paint-order: stroke; stroke: var(--xrd-paper); stroke-width: 5px; stroke-linejoin: round; }
+.d911-xrd .xrd-row:hover .xrd-val, .d911-xrd .xrd-row:focus .xrd-val { stroke: var(--xrd-tint); }
+.d911-xrd .xrd-unit { text-transform: none; letter-spacing: 0; }
+.d911-xrd .xrd-mark { fill: var(--xrd-accent); }
+.d911-xrd .xrd-row.is-ref .xrd-mark { fill: var(--xrd-muted); }
+.d911-xrd .xrd-row.is-ref .xrd-rowlabel { fill: var(--xrd-muted); font-style: italic; }
+.d911-xrd .xrd-hit { fill: transparent; }
+.d911-xrd .xrd-row:hover .xrd-hit, .d911-xrd .xrd-row:focus .xrd-hit { fill: var(--xrd-tint); }
+.d911-xrd .xrd-row:focus { outline: none; }
+.d911-xrd .xrd-tip { position: absolute; max-width: 300px; background: var(--xrd-band); color: var(--xrd-band-ink); font-size: 0.86rem; line-height: 1.4; padding: 8px 10px; border-radius: 8px; pointer-events: none; box-shadow: var(--xrd-shadow); }
+
+/* Notes, next, sources */
+.d911-xrd .xrd-know-grid { display: grid; gap: 12px; }
+@media (min-width: 760px) { .d911-xrd .xrd-know-grid { grid-template-columns: 1fr 1fr; } }
+.d911-xrd .xrd-note { background: var(--xrd-paper); border: 1px solid var(--xrd-line); border-radius: 14px; padding: 16px 18px; gap: 8px; align-content: start; }
+.d911-xrd .xrd-next { background: var(--xrd-tint); border-radius: 14px; padding: 14px 18px; }
+.d911-xrd .xrd-sources ol { padding-left: 1.6em; display: grid; gap: 4px; font-size: 0.88rem; }
+.d911-xrd .xrd-class { color: var(--xrd-muted); font-size: 0.8rem; white-space: nowrap; }
+.d911-xrd .xrd-class::before { content: "· "; }
+.d911-xrd .xrd-fine2 { font-size: 0.86rem; color: var(--xrd-muted); max-width: 80ch; }
+.d911-xrd .xrd-foot { font-family: var(--xrd-display); letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.8rem; color: var(--xrd-muted); text-align: center; }
+@media (prefers-reduced-motion: no-preference) { .d911-xrd .xrd-tab, .d911-xrd .xrd-id-btn { transition: border-color 0.15s ease, background-color 0.15s ease; } }
+
+/* Drawing / real X-ray switch */
+.d911-xrd .xrd-view { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; max-width: 380px; }
+.d911-xrd .xrd-seg { display: inline-flex; padding: 3px; gap: 2px; border: 1px solid var(--xrd-line); border-radius: 999px; background: var(--xrd-tint); }
+.d911-xrd .xrd-viewbtn, .d911-xrd .xrd-labbtn { font-family: var(--xrd-display); font-weight: 500; font-size: 0.8rem; letter-spacing: 0.07em; text-transform: uppercase; border-radius: 999px; padding: 6px 14px; min-height: 34px; cursor: pointer; }
+.d911-xrd .xrd-viewbtn { border: 0; background: transparent; color: var(--xrd-muted); }
+.d911-xrd .xrd-viewbtn:hover { color: var(--xrd-head); }
+.d911-xrd .xrd-viewbtn[aria-pressed="true"] { background: var(--xrd-band); color: var(--xrd-band-ink); box-shadow: inset 0 0 0 1px var(--xrd-link); }
+.d911-xrd .xrd-labbtn { display: none; align-items: center; gap: 7px; border: 1px solid var(--xrd-line); background: var(--xrd-paper); color: var(--xrd-head); padding: 5px 12px; }
+.d911-xrd .xrd-labbtn::before { content: ""; width: 13px; height: 13px; border-radius: 3px; border: 1.5px solid var(--xrd-muted); box-sizing: border-box; }
+.d911-xrd .xrd-labbtn[aria-pressed="true"]::before { background: var(--xrd-link) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.3 2.3 4.7-5' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 11px no-repeat; border-color: var(--xrd-link); }
+.d911-xrd .xrd-real, .d911-xrd .xrd-cap-real { display: none; }
+.d911-xrd[data-view="real"] .xrd-real, .d911-xrd[data-view="real"] .xrd-cap-real { display: block; }
+.d911-xrd[data-view="real"] .xrd-drawing, .d911-xrd[data-view="real"] .xrd-cap-drawing { display: none; }
+.d911-xrd[data-view="real"] .xrd-labbtn { display: inline-flex; }
+.d911-xrd[data-labels="off"] .xrd-labs { display: none; }
+.d911-xrd .xrd-stage { position: relative; max-width: 380px; border-radius: 12px; overflow: hidden; background: #0a1520; }
+.d911-xrd .xrd-stage img { display: block; width: 100%; height: auto; }
+.d911-xrd .xrd-credit { display: block; margin-top: 6px; font-size: 0.78rem; line-height: 1.45; }
+/* Panoramic and CBCT need room: the real view takes the full panel width */
+.d911-xrd[data-view="real"] .xrd-panel-top.has-wide { grid-template-columns: minmax(0, 1fr); }
+.d911-xrd[data-view="real"] .xrd-panel-top.has-wide .xrd-figure { max-width: 880px; }
+.d911-xrd[data-view="real"] .xrd-panel-top.has-wide .xrd-stage, .d911-xrd[data-view="real"] .xrd-panel-top.has-wide figcaption { max-width: none; }
+
+/* Labels on the real images: fixed film colours, since radiographs are dark in either theme */
+.d911-xrd .xrd-lab { position: absolute; width: 10px; height: 10px; margin: -5px 0 0 -5px; pointer-events: none; }
+.d911-xrd .xrd-lab i { position: absolute; inset: 0; border-radius: 50%; background: #f2b53c; box-shadow: 0 0 0 2px rgba(6, 14, 24, 0.85); }
+.d911-xrd .xrd-lab b { position: absolute; white-space: nowrap; font-family: var(--xrd-display); font-weight: 500; font-size: 11px; line-height: 1; letter-spacing: 0.06em; text-transform: uppercase; color: #f7d58a; background: rgba(6, 14, 24, 0.86); border: 1px solid rgba(242, 181, 60, 0.75); border-radius: 4px; padding: 3px 6px 4px; }
+.d911-xrd .xrd-lab.is-r b { left: 15px; top: 50%; transform: translateY(-50%); }
+.d911-xrd .xrd-lab.is-l b { right: 15px; top: 50%; transform: translateY(-50%); }
+.d911-xrd .xrd-lab.is-t b { bottom: 15px; left: 50%; transform: translateX(-50%); }
+.d911-xrd .xrd-lab.is-b b { top: 15px; left: 50%; transform: translateX(-50%); }
+.d911-xrd .xrd-figure[data-wide] .xrd-lab b { font-size: 12.5px; }
+@media (max-width: 600px) { .d911-xrd .xrd-figure[data-wide] .xrd-lab b { font-size: 10px; padding: 2px 4px 3px; } .d911-xrd .xrd-figure[data-wide] .xrd-lab { width: 8px; height: 8px; margin: -4px 0 0 -4px; } }
+@media (max-width: 420px) { .d911-xrd .xrd-viewbtn { padding: 6px 11px; } .d911-xrd .xrd-labbtn { padding: 5px 10px; } }
+.d911-xrd .xrd-credits-h { font-size: 1rem; margin-top: 6px; }
+.d911-xrd .xrd-credits { padding-left: 1.2em; display: grid; gap: 4px; font-size: 0.86rem; color: var(--xrd-muted); }
+</style>
+
+<div class="d911-xrd" data-view="real" data-labels="on">
+  <header class="xrd-hero">
+    <p class="xrd-eyebrow"><span>911Dentist</span><span class="xrd-tag">Free tool</span><span>Part 1: the four X-rays</span></p>
+    <h1>Dental <span class="xrd-nowrap">X-ray</span> Decoder</h1>
+    <p class="xrd-lede">Bitewings, periapicals, panoramics and cone-beam CT do different jobs. See what each one captures, what it can help your dentist find, what it can't show, and how much radiation it involves.</p>
+    <p class="xrd-fine">General education, checked October 2026. This page can't read your X-ray and isn't a diagnosis.</p>
+  </header>
+  <p class="xrd-safety"><strong>Swelling in your face or neck, fever, or trouble swallowing or breathing?</strong> Call 911 or go to the nearest emergency room now.</p>
+
+  <section class="xrd-id" aria-labelledby="xrd-id-h">
+    <h2 id="xrd-id-h">Which <span class="xrd-nowrap">X-ray</span> did you have?</h2>
+    <p class="xrd-sub">Pick what it was like. We'll open that X-ray below.</p>
+    <div class="xrd-id-grid"><button type="button" class="xrd-id-btn" data-go="bitewing"><span>A sensor in my mouth, and I bit down on a small tab</span><b>Bitewings →</b></button><button type="button" class="xrd-id-btn" data-go="periapical"><span>A sensor held against one area inside my mouth</span><b>Periapical →</b></button><button type="button" class="xrd-id-btn" data-go="panoramic"><span>Nothing in my mouth. A machine swung around my head and made one wide picture</span><b>Panoramic →</b></button><button type="button" class="xrd-id-btn" data-go="cbct"><span>Nothing in my mouth. A machine circled my head, and I was shown a 3D image</span><b>CBCT →</b></button></div>
+    <p class="xrd-sub">Bitewings and periapicals feel almost the same. The picture tells them apart: bitewings show upper and lower teeth together; periapicals show whole teeth down to the root tips.</p>
+  </section>
+
+  <section class="xrd-types" aria-labelledby="xrd-types-h">
+    <h2 id="xrd-types-h">The four X-rays</h2>
+    <p class="xrd-sub">Each type opens on a real <span class="xrd-nowrap">X-ray</span> with labels. Tap Drawing to see a simple sketch of what one image covers.</p>
+    <div class="xrd-tabs" role="tablist" aria-label="Type of X-ray"><button type="button" role="tab" id="xrd-tab-bitewing" class="xrd-tab" aria-controls="xrd-panel-bitewing" aria-selected="true" tabindex="0" data-id="bitewing"><span class="xrd-tab-name">Bitewings</span><span class="xrd-tab-meta">2D · in the mouth</span></button><button type="button" role="tab" id="xrd-tab-periapical" class="xrd-tab" aria-controls="xrd-panel-periapical" aria-selected="false" tabindex="-1" data-id="periapical"><span class="xrd-tab-name">Periapical</span><span class="xrd-tab-meta">2D · in the mouth</span></button><button type="button" role="tab" id="xrd-tab-panoramic" class="xrd-tab" aria-controls="xrd-panel-panoramic" aria-selected="false" tabindex="-1" data-id="panoramic"><span class="xrd-tab-name">Panoramic</span><span class="xrd-tab-meta">2D · outside</span></button><button type="button" role="tab" id="xrd-tab-cbct" class="xrd-tab" aria-controls="xrd-panel-cbct" aria-selected="false" tabindex="-1" data-id="cbct"><span class="xrd-tab-name">CBCT</span><span class="xrd-tab-meta">3D · outside</span></button></div>
+    <section role="tabpanel" id="xrd-panel-bitewing" class="xrd-panel" aria-labelledby="xrd-tab-bitewing">
+  <div class="xrd-panel-top">
+    <figure class="xrd-figure">
+      <div class="xrd-view">
+        <div class="xrd-seg" role="group" aria-label="Picture"><button type="button" class="xrd-viewbtn" data-view="drawing" aria-pressed="false">Drawing</button><button type="button" class="xrd-viewbtn" data-view="real" aria-pressed="true">Real <span class="xrd-nowrap">X-ray</span></button></div>
+        <button type="button" class="xrd-labbtn" aria-pressed="true">Labels</button>
+      </div>
+      <div class="xrd-drawing"><svg class="xrd-film" viewBox="0 0 320 250" role="img" aria-labelledby="xrd-art-bitewing-t xrd-art-bitewing-d">
+<title id="xrd-art-bitewing-t">What one bitewing covers</title><desc id="xrd-art-bitewing-d">A frame across the crowns of the upper and lower back teeth and the top of the bone between them. The root tips are outside the frame.</desc>
+<rect width="320" height="250" rx="12" fill="#0a1520"/>
+<rect x="8" y="8" width="304" height="100" rx="6" fill="#1c2d3f"/><rect x="8" y="142" width="304" height="100" rx="6" fill="#1c2d3f"/>
+<rect x="8" y="98" width="304" height="10" fill="#2b4058"/><rect x="8" y="142" width="304" height="10" fill="#2b4058"/>
+<path d="M33.38,76 L53.1,76 L46.7896,20 Q43.24,15 39.690400000000004,20 Z" fill="#bccad8"/><path d="M43.24,76 L43.24,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M58.900000000000006,76 L78.62,76 L72.3096,20 Q68.76,15 65.2104,20 Z" fill="#bccad8"/><path d="M68.76,76 L68.76,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M27,76 L85,76 L85,113 Q85,122 76,122 L36,122 Q27,122 27,113 Z" fill="#bccad8"/><path d="M28,104 L84,104 L84,113 Q84,121 76,121 L36,121 Q28,121 28,113 Z" fill="#f1f5f9"/><rect x="44.4" y="78" width="23.200000000000003" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M101.38,76 L121.1,76 L114.7896,20 Q111.24,15 107.6904,20 Z" fill="#bccad8"/><path d="M111.24,76 L111.24,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M126.89999999999999,76 L146.62,76 L140.3096,20 Q136.76,15 133.2104,20 Z" fill="#bccad8"/><path d="M136.76,76 L136.76,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M95,76 L153,76 L153,113 Q153,122 144,122 L104,122 Q95,122 95,113 Z" fill="#bccad8"/><path d="M96,104 L152,104 L152,113 Q152,121 144,121 L104,121 Q96,121 96,113 Z" fill="#f1f5f9"/><rect x="112.4" y="78" width="23.200000000000003" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M178.88,76 L199.12,76 L192.6432,20 Q189,15 185.3568,20 Z" fill="#bccad8"/><path d="M189,76 L189,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M167,76 L211,76 L211,113 Q211,122 202,122 L176,122 Q167,122 167,113 Z" fill="#bccad8"/><path d="M168,104 L210,104 L210,113 Q210,121 202,121 L176,121 Q168,121 168,113 Z" fill="#f1f5f9"/><rect x="180.2" y="78" width="17.6" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M236.88,76 L257.12,76 L250.6432,20 Q247,15 243.3568,20 Z" fill="#bccad8"/><path d="M247,76 L247,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M225,76 L269,76 L269,113 Q269,122 260,122 L234,122 Q225,122 225,113 Z" fill="#bccad8"/><path d="M226,104 L268,104 L268,113 Q268,121 260,121 L234,121 Q226,121 226,113 Z" fill="#f1f5f9"/><rect x="238.2" y="78" width="17.6" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M33.38,176 L53.1,176 L46.7896,228 Q43.24,233 39.690400000000004,228 Z" fill="#bccad8"/><path d="M43.24,176 L43.24,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M58.900000000000006,176 L78.62,176 L72.3096,228 Q68.76,233 65.2104,228 Z" fill="#bccad8"/><path d="M68.76,176 L68.76,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M27,176 L85,176 L85,139 Q85,130 76,130 L36,130 Q27,130 27,139 Z" fill="#bccad8"/><path d="M28,148 L84,148 L84,139 Q84,131 76,131 L36,131 Q28,131 28,139 Z" fill="#f1f5f9"/><rect x="44.4" y="155.6" width="23.200000000000003" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M101.38,176 L121.1,176 L114.7896,228 Q111.24,233 107.6904,228 Z" fill="#bccad8"/><path d="M111.24,176 L111.24,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M126.89999999999999,176 L146.62,176 L140.3096,228 Q136.76,233 133.2104,228 Z" fill="#bccad8"/><path d="M136.76,176 L136.76,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M95,176 L153,176 L153,139 Q153,130 144,130 L104,130 Q95,130 95,139 Z" fill="#bccad8"/><path d="M96,148 L152,148 L152,139 Q152,131 144,131 L104,131 Q96,131 96,139 Z" fill="#f1f5f9"/><rect x="112.4" y="155.6" width="23.200000000000003" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M178.88,176 L199.12,176 L192.6432,228 Q189,233 185.3568,228 Z" fill="#bccad8"/><path d="M189,176 L189,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M167,176 L211,176 L211,139 Q211,130 202,130 L176,130 Q167,130 167,139 Z" fill="#bccad8"/><path d="M168,148 L210,148 L210,139 Q210,131 202,131 L176,131 Q168,131 168,139 Z" fill="#f1f5f9"/><rect x="180.2" y="155.6" width="17.6" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M236.88,176 L257.12,176 L250.6432,228 Q247,233 243.3568,228 Z" fill="#bccad8"/><path d="M247,176 L247,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M225,176 L269,176 L269,139 Q269,130 260,130 L234,130 Q225,130 225,139 Z" fill="#bccad8"/><path d="M226,148 L268,148 L268,139 Q268,131 260,131 L234,131 Q226,131 226,139 Z" fill="#f1f5f9"/><rect x="238.2" y="155.6" width="17.6" height="18.400000000000002" rx="5" fill="#33465a"/>
+<rect x="14" y="60" width="292" height="132" rx="6" fill="rgba(242,181,60,0.13)" stroke="#f2b53c" stroke-width="2.5" stroke-dasharray="7 5"/>
+<rect x="16" y="66" width="112.80000000000001" height="20" rx="4" fill="#0a1520" opacity="0.92"/>
+<text x="22" y="80" fill="#f7d58a" font-family="Oswald, Arial Narrow, sans-serif" font-size="13" letter-spacing="0.8">ONE BITEWING</text>
+</svg></div>
+      <div class="xrd-real"><div class="xrd-stage"><img src="{{XRD_IMG_bitewing}}" width="478" height="358" alt="Real bitewing X-ray: the crowns of the upper and lower back teeth meeting in the middle, with the bone between the lower teeth at the bottom edge." decoding="async"><div class="xrd-labs" aria-hidden="true"><span class="xrd-lab is-r" style="left:50%;top:18%"><i></i><b>Upper back teeth</b></span><span class="xrd-lab is-l" style="left:44%;top:60%"><i></i><b>Lower back teeth</b></span><span class="xrd-lab is-t" style="left:59.5%;top:57%"><i></i><b>Where teeth touch</b></span><span class="xrd-lab is-l" style="left:57%;top:82%"><i></i><b>Bone between teeth</b></span></div></div></div>
+      <figcaption><span class="xrd-cap-drawing">Crowns of upper and lower back teeth together; the root tips sit outside the frame. <span class="xrd-schem">Schematic drawing, not a real <span class="xrd-nowrap">X-ray</span>.</span></span><span class="xrd-cap-real">A real bitewing. Upper and lower back teeth meet in the middle; the roots run off the top and bottom edges. <span class="xrd-schem">Labels are approximate, for orientation only.</span><span class="xrd-credit">Image: <a href="https://commons.wikimedia.org/wiki/File:ZELLFAZE_MN01_MP08_010.JPG" target="_blank" rel="noopener">“ZELLFAZE MN01 MP08 010”</a> by Dr Jeffrey Cross DDS, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>, via Wikimedia Commons. Converted to grayscale and the white background darkened. The edited image is shared under the same license.</span></span></figcaption>
+    </figure>
+    <div class="xrd-intro">
+      <h3>Bitewings</h3>
+      <p class="xrd-pills"><span class="xrd-pill">2D</span><span class="xrd-pill">Inside the mouth</span><span class="xrd-pill is-review" title="Clinical wording awaiting Dr Paris's review">Draft · clinical review</span></p>
+      <p class="xrd-covers"><span class="xrd-k">One image covers</span>The crowns of your upper and lower back teeth together in one image, down to about the level of the bone. <span class="xrd-cite"><a href="#xrd-src-1" aria-label="Source 1">1</a><a href="#xrd-src-2" aria-label="Source 2">2</a></span></p>
+      <p><span class="xrd-k">How it's taken</span>A small sensor goes inside your mouth and you bite on a tab, so the upper and lower teeth are captured together. Usually two or four images, one or two per side. Vertical bitewings stand the sensor on end to show more of the bone. <span class="xrd-cite"><a href="#xrd-src-1" aria-label="Source 1">1</a><a href="#xrd-src-3" aria-label="Source 3">3</a></span></p>
+      <div class="xrd-onplan"><span class="xrd-k">On your plan</span><p><span class="xrd-chip">BW</span><span class="xrd-chip">BWX</span><span class="xrd-chip">2BW</span><span class="xrd-chip">4BW</span><span class="xrd-chip">Bitewings</span><span class="xrd-chip">Vertical bitewings</span></p><p class="xrd-codes"><span><b>D0272</b> two images</span><span><b>D0274</b> four images</span><span><b>D0277</b> vertical bitewings, 7 to 8 images</span><span><b>D0270</b> one image</span> <span class="xrd-cite"><a href="#xrd-src-4" aria-label="Source 4">4</a></span></p></div>
+    </div>
+  </div>
+  <div class="xrd-three">
+    <section><h4>What it shows</h4><ul><li>The crowns of the upper and lower back teeth</li><li>The contact points between neighboring teeth</li><li>Existing fillings and the edges of crowns</li><li>The top of the bone between the teeth</li></ul><p class="xrd-srcline"><span class="xrd-cite"><a href="#xrd-src-2" aria-label="Source 2">2</a><a href="#xrd-src-5" aria-label="Source 5">5</a><a href="#xrd-src-6" aria-label="Source 6">6</a></span></p></section>
+    <section><h4>What it can help a dentist find</h4><ul><li>Decay between the back teeth, where it can&#39;t be seen in the mouth. The FDA calls bitewings the most efficient way to find it.</li><li>Whether old fillings and crowns still fit well at their edges.</li><li>The bone level between the teeth, which drops with gum disease. Vertical bitewings are used when more bone loss is suspected.</li></ul><p class="xrd-srcline"><span class="xrd-cite"><a href="#xrd-src-3" aria-label="Source 3">3</a><a href="#xrd-src-6" aria-label="Source 6">6</a><a href="#xrd-src-7" aria-label="Source 7">7</a></span></p></section>
+    <section><h4>What it can't show well</h4><ul><li>It stops at about the level of the bone, so it doesn&#39;t show the root tips.</li><li>Very early decay can&#39;t be seen yet, and decay is usually further along than the X-ray suggests.</li><li>Decay on the chewing surface often doesn&#39;t show until it has passed through the enamel.</li><li>A metal filling can hide decay underneath it.</li><li>It doesn&#39;t show the gums, and bone loss can be greater than it appears.</li></ul><p class="xrd-srcline"><span class="xrd-cite"><a href="#xrd-src-2" aria-label="Source 2">2</a><a href="#xrd-src-5" aria-label="Source 5">5</a><a href="#xrd-src-6" aria-label="Source 6">6</a></span></p></section>
+  </div>
+  <dl class="xrd-facts">
+    <div><dt>Radiation</dt><dd><strong>3.4 to 5.0 µSv for a set of four</strong><span>Digital sensor or F-speed film with a rectangular beam. A single bitewing is 0.3 to 1.4 µSv. <span class="xrd-cite"><a href="#xrd-src-8" aria-label="Source 8">8</a></span></span></dd></div>
+    <div><dt>How often</dt><dd><span>Based on your own risk, not a fixed schedule. For check-up patients, the 2012 ADA/FDA guidance suggests every 6 to 18 months for adults with cavities or a higher risk of them, and every 24 to 36 months for adults with no cavities and low risk. Children and teens at higher risk: every 6 to 12 months. <span class="xrd-cite"><a href="#xrd-src-7" aria-label="Source 7">7</a></span></span></dd></div>
+    <div><dt>Typical U.S. price, no insurance</dt><dd><strong>$20–$120</strong><span>per set. Ranges from cost guides and financing companies; your office's fee may differ. <span class="xrd-cite"><a href="#xrd-src-9" aria-label="Source 9">9</a><a href="#xrd-src-10" aria-label="Source 10">10</a><a href="#xrd-src-11" aria-label="Source 11">11</a><a href="#xrd-src-12" aria-label="Source 12">12</a></span></span></dd></div>
+  </dl>
+</section>
+<section role="tabpanel" id="xrd-panel-periapical" class="xrd-panel" aria-labelledby="xrd-tab-periapical" hidden>
+  <div class="xrd-panel-top">
+    <figure class="xrd-figure">
+      <div class="xrd-view">
+        <div class="xrd-seg" role="group" aria-label="Picture"><button type="button" class="xrd-viewbtn" data-view="drawing" aria-pressed="false">Drawing</button><button type="button" class="xrd-viewbtn" data-view="real" aria-pressed="true">Real <span class="xrd-nowrap">X-ray</span></button></div>
+        <button type="button" class="xrd-labbtn" aria-pressed="true">Labels</button>
+      </div>
+      <div class="xrd-drawing"><svg class="xrd-film" viewBox="0 0 320 250" role="img" aria-labelledby="xrd-art-periapical-t xrd-art-periapical-d">
+<title id="xrd-art-periapical-t">What one periapical covers</title><desc id="xrd-art-periapical-d">A tall frame around two upper teeth from the crowns to past the root tips, with the bone around the roots.</desc>
+<rect width="320" height="250" rx="12" fill="#0a1520"/>
+<rect x="8" y="8" width="304" height="100" rx="6" fill="#1c2d3f"/><rect x="8" y="142" width="304" height="100" rx="6" fill="#1c2d3f"/>
+<rect x="8" y="98" width="304" height="10" fill="#2b4058"/><rect x="8" y="142" width="304" height="10" fill="#2b4058"/>
+<path d="M33.38,76 L53.1,76 L46.7896,20 Q43.24,15 39.690400000000004,20 Z" fill="#bccad8"/><path d="M43.24,76 L43.24,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M58.900000000000006,76 L78.62,76 L72.3096,20 Q68.76,15 65.2104,20 Z" fill="#bccad8"/><path d="M68.76,76 L68.76,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M27,76 L85,76 L85,113 Q85,122 76,122 L36,122 Q27,122 27,113 Z" fill="#bccad8"/><path d="M28,104 L84,104 L84,113 Q84,121 76,121 L36,121 Q28,121 28,113 Z" fill="#f1f5f9"/><rect x="44.4" y="78" width="23.200000000000003" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M101.38,76 L121.1,76 L114.7896,20 Q111.24,15 107.6904,20 Z" fill="#bccad8"/><path d="M111.24,76 L111.24,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M126.89999999999999,76 L146.62,76 L140.3096,20 Q136.76,15 133.2104,20 Z" fill="#bccad8"/><path d="M136.76,76 L136.76,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M95,76 L153,76 L153,113 Q153,122 144,122 L104,122 Q95,122 95,113 Z" fill="#bccad8"/><path d="M96,104 L152,104 L152,113 Q152,121 144,121 L104,121 Q96,121 96,113 Z" fill="#f1f5f9"/><rect x="112.4" y="78" width="23.200000000000003" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M178.88,76 L199.12,76 L192.6432,20 Q189,15 185.3568,20 Z" fill="#bccad8"/><path d="M189,76 L189,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M167,76 L211,76 L211,113 Q211,122 202,122 L176,122 Q167,122 167,113 Z" fill="#bccad8"/><path d="M168,104 L210,104 L210,113 Q210,121 202,121 L176,121 Q168,121 168,113 Z" fill="#f1f5f9"/><rect x="180.2" y="78" width="17.6" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M236.88,76 L257.12,76 L250.6432,20 Q247,15 243.3568,20 Z" fill="#bccad8"/><path d="M247,76 L247,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M225,76 L269,76 L269,113 Q269,122 260,122 L234,122 Q225,122 225,113 Z" fill="#bccad8"/><path d="M226,104 L268,104 L268,113 Q268,121 260,121 L234,121 Q226,121 226,113 Z" fill="#f1f5f9"/><rect x="238.2" y="78" width="17.6" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M33.38,176 L53.1,176 L46.7896,228 Q43.24,233 39.690400000000004,228 Z" fill="#bccad8"/><path d="M43.24,176 L43.24,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M58.900000000000006,176 L78.62,176 L72.3096,228 Q68.76,233 65.2104,228 Z" fill="#bccad8"/><path d="M68.76,176 L68.76,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M27,176 L85,176 L85,139 Q85,130 76,130 L36,130 Q27,130 27,139 Z" fill="#bccad8"/><path d="M28,148 L84,148 L84,139 Q84,131 76,131 L36,131 Q28,131 28,139 Z" fill="#f1f5f9"/><rect x="44.4" y="155.6" width="23.200000000000003" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M101.38,176 L121.1,176 L114.7896,228 Q111.24,233 107.6904,228 Z" fill="#bccad8"/><path d="M111.24,176 L111.24,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M126.89999999999999,176 L146.62,176 L140.3096,228 Q136.76,233 133.2104,228 Z" fill="#bccad8"/><path d="M136.76,176 L136.76,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M95,176 L153,176 L153,139 Q153,130 144,130 L104,130 Q95,130 95,139 Z" fill="#bccad8"/><path d="M96,148 L152,148 L152,139 Q152,131 144,131 L104,131 Q96,131 96,139 Z" fill="#f1f5f9"/><rect x="112.4" y="155.6" width="23.200000000000003" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M178.88,176 L199.12,176 L192.6432,228 Q189,233 185.3568,228 Z" fill="#bccad8"/><path d="M189,176 L189,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M167,176 L211,176 L211,139 Q211,130 202,130 L176,130 Q167,130 167,139 Z" fill="#bccad8"/><path d="M168,148 L210,148 L210,139 Q210,131 202,131 L176,131 Q168,131 168,139 Z" fill="#f1f5f9"/><rect x="180.2" y="155.6" width="17.6" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M236.88,176 L257.12,176 L250.6432,228 Q247,233 243.3568,228 Z" fill="#bccad8"/><path d="M247,176 L247,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M225,176 L269,176 L269,139 Q269,130 260,130 L234,130 Q225,130 225,139 Z" fill="#bccad8"/><path d="M226,148 L268,148 L268,139 Q268,131 260,131 L234,131 Q226,131 226,139 Z" fill="#f1f5f9"/><rect x="238.2" y="155.6" width="17.6" height="18.400000000000002" rx="5" fill="#33465a"/>
+<rect x="88" y="10" width="144" height="124" rx="6" fill="rgba(242,181,60,0.13)" stroke="#f2b53c" stroke-width="2.5" stroke-dasharray="7 5"/>
+<rect x="90" y="114" width="129.60000000000002" height="20" rx="4" fill="#0a1520" opacity="0.92"/>
+<text x="96" y="128" fill="#f7d58a" font-family="Oswald, Arial Narrow, sans-serif" font-size="13" letter-spacing="0.8">ONE PERIAPICAL</text>
+</svg></div>
+      <div class="xrd-real"><div class="xrd-stage"><img src="{{XRD_IMG_periapical}}" width="480" height="356" alt="Real periapical X-ray of lower back teeth: molars shown from the crowns down to the root tips, a wisdom tooth at the edge, and the bone around the roots." decoding="async"><div class="xrd-labs" aria-hidden="true"><span class="xrd-lab is-t" style="left:28%;top:28%"><i></i><b>Crown</b></span><span class="xrd-lab is-b" style="left:58%;top:41%"><i></i><b>Pulp (nerve space)</b></span><span class="xrd-lab is-l" style="left:26%;top:62%"><i></i><b>Root</b></span><span class="xrd-lab is-r" style="left:38.5%;top:75%"><i></i><b>Bone</b></span><span class="xrd-lab is-l" style="left:85%;top:22%"><i></i><b>Wisdom tooth</b></span></div></div></div>
+      <figcaption><span class="xrd-cap-drawing">One or two whole teeth, crown to root tip, with the bone around them. <span class="xrd-schem">Schematic drawing, not a real <span class="xrd-nowrap">X-ray</span>.</span></span><span class="xrd-cap-real">A real periapical of lower back teeth. The molars show from the crown down to the root tips, with the bone around them. <span class="xrd-schem">Labels are approximate, for orientation only.</span><span class="xrd-credit">Image: <a href="https://commons.wikimedia.org/wiki/File:ZELLFAZE_MN01_MP16_005.JPG" target="_blank" rel="noopener">“ZELLFAZE MN01 MP16 005”</a> by Dr Jeffrey Cross DDS, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>, via Wikimedia Commons. Converted to grayscale and the white background darkened. The edited image is shared under the same license.</span></span></figcaption>
+    </figure>
+    <div class="xrd-intro">
+      <h3>Periapical (PA)</h3>
+      <p class="xrd-pills"><span class="xrd-pill">2D</span><span class="xrd-pill">Inside the mouth</span><span class="xrd-pill is-review" title="Clinical wording awaiting Dr Paris's review">Draft · clinical review</span></p>
+      <p class="xrd-covers"><span class="xrd-k">One image covers</span>One or two whole teeth, from the crown to just past the tip of the root, with the bone around them. <span class="xrd-cite"><a href="#xrd-src-1" aria-label="Source 1">1</a><a href="#xrd-src-2" aria-label="Source 2">2</a></span></p>
+      <p><span class="xrd-k">How it's taken</span>A small sensor is held inside your mouth, lined up with the teeth being checked. Each image covers one area, so a dentist may take several. <span class="xrd-cite"><a href="#xrd-src-2" aria-label="Source 2">2</a></span></p>
+      <div class="xrd-onplan"><span class="xrd-k">On your plan</span><p><span class="xrd-chip">PA</span><span class="xrd-chip">Periapical</span><span class="xrd-chip">PA film</span><span class="xrd-chip">Periapical image</span></p><p class="xrd-codes"><span><b>D0220</b> first image</span><span><b>D0230</b> each additional image</span> <span class="xrd-cite"><a href="#xrd-src-4" aria-label="Source 4">4</a></span></p></div>
+    </div>
+  </div>
+  <div class="xrd-three">
+    <section><h4>What it shows</h4><ul><li>The whole tooth, from the crown to the root tip</li><li>The bone around the root, and the thin space that holds the tooth in its socket</li><li>Nearby landmarks, such as the sinus above the upper back teeth or a small nerve opening below the lower premolars</li></ul><p class="xrd-srcline"><span class="xrd-cite"><a href="#xrd-src-1" aria-label="Source 1">1</a><a href="#xrd-src-2" aria-label="Source 2">2</a></span></p></section>
+    <section><h4>What it can help a dentist find</h4><ul><li>Infection at the tip of a root, which can show up as a dark area.</li><li>Root shape, and roots that are wearing away (resorption).</li><li>Problems in the tooth&#39;s nerve, and injuries to teeth. The FDA notes that X-rays taken inside the mouth are more accurate for these than a panoramic.</li><li>Where a tooth that hasn&#39;t come in yet is sitting.</li><li>Bone loss and decay near the roots.</li></ul><p class="xrd-srcline"><span class="xrd-cite"><a href="#xrd-src-7" aria-label="Source 7">7</a><a href="#xrd-src-13" aria-label="Source 13">13</a><a href="#xrd-src-14" aria-label="Source 14">14</a><a href="#xrd-src-15" aria-label="Source 15">15</a></span></p></section>
+    <section><h4>What it can't show well</h4><ul><li>It&#39;s a flat picture of a three-dimensional tooth, so roots and canals can overlap and hide each other.</li><li>It may not show how many roots or canals a tooth really has.</li><li>Early infection at a root tip can show on a 3D scan before it appears here.</li></ul><p class="xrd-srcline"><span class="xrd-cite"><a href="#xrd-src-14" aria-label="Source 14">14</a></span></p></section>
+  </div>
+  <dl class="xrd-facts">
+    <div><dt>Radiation</dt><dd><strong>about 1.5 µSv or less per image</strong><span>Figure given for a single image taken inside the mouth. <span class="xrd-cite"><a href="#xrd-src-16" aria-label="Source 16">16</a><a href="#xrd-src-17" aria-label="Source 17">17</a></span></span></dd></div>
+    <div><dt>How often</dt><dd><span>When there&#39;s a specific reason: pain, swelling, a deep cavity, an injury, or before root canal treatment. New patients often get selected periapicals along with bitewings. <span class="xrd-cite"><a href="#xrd-src-7" aria-label="Source 7">7</a><a href="#xrd-src-14" aria-label="Source 14">14</a></span></span></dd></div>
+    <div><dt>Typical U.S. price, no insurance</dt><dd><strong>$15–$100</strong><span>per image. Ranges from cost guides and financing companies; your office's fee may differ. <span class="xrd-cite"><a href="#xrd-src-9" aria-label="Source 9">9</a><a href="#xrd-src-10" aria-label="Source 10">10</a><a href="#xrd-src-11" aria-label="Source 11">11</a><a href="#xrd-src-12" aria-label="Source 12">12</a></span></span></dd></div>
+  </dl>
+</section>
+<section role="tabpanel" id="xrd-panel-panoramic" class="xrd-panel" aria-labelledby="xrd-tab-panoramic" hidden>
+  <div class="xrd-panel-top has-wide">
+    <figure class="xrd-figure" data-wide>
+      <div class="xrd-view">
+        <div class="xrd-seg" role="group" aria-label="Picture"><button type="button" class="xrd-viewbtn" data-view="drawing" aria-pressed="false">Drawing</button><button type="button" class="xrd-viewbtn" data-view="real" aria-pressed="true">Real <span class="xrd-nowrap">X-ray</span></button></div>
+        <button type="button" class="xrd-labbtn" aria-pressed="true">Labels</button>
+      </div>
+      <div class="xrd-drawing"><svg class="xrd-film" viewBox="0 0 320 250" role="img" aria-labelledby="xrd-art-panoramic-t xrd-art-panoramic-d">
+<title id="xrd-art-panoramic-t">What one panoramic image covers</title><desc id="xrd-art-panoramic-d">A wide view of both jaws: every tooth, the sinuses above the upper teeth, the nerve canal in the lower jaw and the jaw joints at each end, all inside one marked frame.</desc>
+<rect width="320" height="250" rx="12" fill="#0a1520"/>
+<path d="M22,104 Q160,40 298,104 L298,128 Q160,96 22,128 Z" fill="#1c2d3f"/>
+<ellipse cx="82" cy="54" rx="40" ry="20" fill="#0f1e2c" stroke="#8fa3b8" stroke-width="1"/><ellipse cx="238" cy="54" rx="40" ry="20" fill="#0f1e2c" stroke="#8fa3b8" stroke-width="1"/>
+<path d="M16,86 Q12,70 24,64 Q36,62 38,78 L46,200 Q160,250 274,200 L282,78 Q284,62 296,64 Q308,70 304,86 L300,212 Q160,268 20,212 Z" fill="#1c2d3f" opacity="0.85"/>
+<path d="M44,170 Q160,232 276,170" fill="none" stroke="#33465a" stroke-width="3" stroke-dasharray="4 4"/>
+<rect x="43" y="90.925" width="14" height="20" rx="4" fill="#f1f5f9"/><rect x="45.8" y="56.925" width="8.4" height="36" rx="3" fill="#bccad8"/><rect x="43" y="116.925" width="14" height="20" rx="4" fill="#f1f5f9"/><rect x="45.8" y="134.925" width="8.4" height="38" rx="3" fill="#bccad8"/><rect x="60.3" y="93.5550325" width="14" height="20" rx="4" fill="#f1f5f9"/><rect x="63.099999999999994" y="59.555032499999996" width="8.4" height="36" rx="3" fill="#bccad8"/><rect x="60.3" y="119.5550325" width="14" height="20" rx="4" fill="#f1f5f9"/><rect x="63.099999999999994" y="137.5550325" width="8.4" height="38" rx="3" fill="#bccad8"/><rect x="77.6" y="95.73613" width="14" height="20" rx="4" fill="#f1f5f9"/><rect x="80.39999999999999" y="61.73613" width="8.4" height="36" rx="3" fill="#bccad8"/><rect x="77.6" y="121.73613" width="14" height="20" rx="4" fill="#f1f5f9"/><rect x="80.39999999999999" y="139.73613" width="8.4" height="38" rx="3" fill="#bccad8"/><rect x="96.15" y="97.4682925" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="98.45" y="63.468292500000004" width="6.8999999999999995" height="36" rx="3" fill="#bccad8"/><rect x="96.15" y="123.4682925" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="98.45" y="141.4682925" width="6.8999999999999995" height="38" rx="3" fill="#bccad8"/><rect x="113.45" y="98.75152" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="115.75" y="64.75152" width="6.8999999999999995" height="36" rx="3" fill="#bccad8"/><rect x="113.45" y="124.75152" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="115.75" y="142.75152" width="6.8999999999999995" height="38" rx="3" fill="#bccad8"/><rect x="130.75" y="99.5858125" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="133.05" y="65.5858125" width="6.8999999999999995" height="36" rx="3" fill="#bccad8"/><rect x="130.75" y="125.5858125" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="133.05" y="143.5858125" width="6.8999999999999995" height="38" rx="3" fill="#bccad8"/><rect x="148.05" y="99.97117" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="150.35000000000002" y="65.97117" width="6.8999999999999995" height="36" rx="3" fill="#bccad8"/><rect x="148.05" y="125.97117" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="150.35000000000002" y="143.97117" width="6.8999999999999995" height="38" rx="3" fill="#bccad8"/><rect x="165.35000000000002" y="99.90759249999999" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="167.65000000000003" y="65.90759249999999" width="6.8999999999999995" height="36" rx="3" fill="#bccad8"/><rect x="165.35000000000002" y="125.90759249999999" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="167.65000000000003" y="143.9075925" width="6.8999999999999995" height="38" rx="3" fill="#bccad8"/><rect x="182.65" y="99.39508" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="184.95000000000002" y="65.39508" width="6.8999999999999995" height="36" rx="3" fill="#bccad8"/><rect x="182.65" y="125.39508" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="184.95000000000002" y="143.39508" width="6.8999999999999995" height="38" rx="3" fill="#bccad8"/><rect x="199.95000000000002" y="98.4336325" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="202.25000000000003" y="64.4336325" width="6.8999999999999995" height="36" rx="3" fill="#bccad8"/><rect x="199.95000000000002" y="124.4336325" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="202.25000000000003" y="142.4336325" width="6.8999999999999995" height="38" rx="3" fill="#bccad8"/><rect x="217.25" y="97.02325" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="219.55" y="63.02325" width="6.8999999999999995" height="36" rx="3" fill="#bccad8"/><rect x="217.25" y="123.02325" width="11.5" height="20" rx="4" fill="#f1f5f9"/><rect x="219.55" y="141.02325" width="6.8999999999999995" height="38" rx="3" fill="#bccad8"/><rect x="233.3" y="95.1639325" width="14" height="20" rx="4" fill="#f1f5f9"/><rect x="236.10000000000002" y="61.1639325" width="8.4" height="36" rx="3" fill="#bccad8"/><rect x="233.3" y="121.1639325" width="14" height="20" rx="4" fill="#f1f5f9"/><rect x="236.10000000000002" y="139.1639325" width="8.4" height="38" rx="3" fill="#bccad8"/><rect x="250.60000000000002" y="92.85567999999999" width="14" height="20" rx="4" fill="#f1f5f9"/><rect x="253.40000000000003" y="58.85568" width="8.4" height="36" rx="3" fill="#bccad8"/><rect x="250.60000000000002" y="118.85567999999999" width="14" height="20" rx="4" fill="#f1f5f9"/><rect x="253.40000000000003" y="136.85568" width="8.4" height="38" rx="3" fill="#bccad8"/><rect x="267.9" y="90.0984925" width="14" height="20" rx="4" fill="#f1f5f9"/><rect x="270.7" y="56.098492500000006" width="8.4" height="36" rx="3" fill="#bccad8"/><rect x="267.9" y="116.0984925" width="14" height="20" rx="4" fill="#f1f5f9"/><rect x="270.7" y="134.0984925" width="8.4" height="38" rx="3" fill="#bccad8"/>
+<text x="82" y="36" text-anchor="middle" fill="#8fa3b8" font-family="Lato, Arial, sans-serif" font-size="10">sinus</text><text x="238" y="36" text-anchor="middle" fill="#8fa3b8" font-family="Lato, Arial, sans-serif" font-size="10">sinus</text>
+<text x="22" y="56" text-anchor="middle" fill="#8fa3b8" font-family="Lato, Arial, sans-serif" font-size="10">joint</text><text x="298" y="56" text-anchor="middle" fill="#8fa3b8" font-family="Lato, Arial, sans-serif" font-size="10">joint</text>
+<text x="160" y="214" text-anchor="middle" fill="#8fa3b8" font-family="Lato, Arial, sans-serif" font-size="10">nerve canal</text>
+<rect x="6" y="22" width="308" height="220" rx="6" fill="rgba(242,181,60,0.13)" stroke="#f2b53c" stroke-width="2.5" stroke-dasharray="7 5"/>
+<rect x="10" y="224" width="121.2" height="20" rx="4" fill="#0a1520" opacity="0.92"/>
+<text x="16" y="238" fill="#f7d58a" font-family="Oswald, Arial Narrow, sans-serif" font-size="13" letter-spacing="0.8">ONE PANORAMIC</text>
+</svg></div>
+      <div class="xrd-real"><div class="xrd-stage"><img src="{{XRD_IMG_panoramic}}" width="1200" height="612" alt="Real panoramic X-ray of an adult: all the upper and lower teeth in one wide image, bright fillings on the back teeth, the sinuses and nose above and the lower jawbone below." decoding="async"><div class="xrd-labs" aria-hidden="true"><span class="xrd-lab is-r" style="left:33%;top:14%"><i></i><b>Sinus</b></span><span class="xrd-lab is-r" style="left:50%;top:9%"><i></i><b>Nose</b></span><span class="xrd-lab is-b" style="left:30.5%;top:53%"><i></i><b>Fillings</b></span><span class="xrd-lab is-r" style="left:40%;top:83%"><i></i><b>Lower jawbone</b></span><span class="xrd-lab is-r" style="left:5%;top:30%"><i></i><b>Jaw joint area</b></span></div></div></div>
+      <figcaption><span class="xrd-cap-drawing">Both jaws in one wide, flat picture. <span class="xrd-schem">Schematic drawing, not a real <span class="xrd-nowrap">X-ray</span>.</span></span><span class="xrd-cap-real">A real panoramic of a 21-year-old whose wisdom teeth had been removed. The L marks the patient&#39;s left side. <span class="xrd-schem">Labels are approximate, for orientation only.</span><span class="xrd-credit">Image: <a href="https://commons.wikimedia.org/wiki/File:Dental_Panorama_X-ray.jpg" target="_blank" rel="noopener">“Dental Panorama X-ray”</a> by Farhang Amini, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>, via Wikimedia Commons. Cropped, converted to grayscale and resized.</span></span></figcaption>
+    </figure>
+    <div class="xrd-intro">
+      <h3>Panoramic (pano)</h3>
+      <p class="xrd-pills"><span class="xrd-pill">2D</span><span class="xrd-pill">Outside the mouth</span><span class="xrd-pill is-review" title="Clinical wording awaiting Dr Paris's review">Draft · clinical review</span></p>
+      <p class="xrd-covers"><span class="xrd-k">One image covers</span>Your whole mouth in one wide image: all the teeth, both jaws and the surrounding structures, including the sinuses. <span class="xrd-cite"><a href="#xrd-src-1" aria-label="Source 1">1</a><a href="#xrd-src-18" aria-label="Source 18">18</a></span></p>
+      <p><span class="xrd-k">How it's taken</span>Taken outside the mouth. You stand or sit still, bite on a small guide, and the machine&#39;s arm swings around your head. <span class="xrd-cite"><a href="#xrd-src-1" aria-label="Source 1">1</a><a href="#xrd-src-18" aria-label="Source 18">18</a></span></p>
+      <div class="xrd-onplan"><span class="xrd-k">On your plan</span><p><span class="xrd-chip">Pano</span><span class="xrd-chip">PAN</span><span class="xrd-chip">Panoramic</span><span class="xrd-chip">OPG</span></p><p class="xrd-codes"><span><b>D0330</b> panoramic image</span> <span class="xrd-cite"><a href="#xrd-src-4" aria-label="Source 4">4</a></span></p></div>
+    </div>
+  </div>
+  <div class="xrd-three">
+    <section><h4>What it shows</h4><ul><li>Every tooth, including ones that haven&#39;t come in</li><li>The upper and lower jawbones</li><li>The sinuses above the upper teeth</li><li>The nerve canal in the lower jaw</li><li>The area around the jaw joints</li></ul><p class="xrd-srcline"><span class="xrd-cite"><a href="#xrd-src-18" aria-label="Source 18">18</a></span></p></section>
+    <section><h4>What it can help a dentist find</h4><ul><li>Impacted teeth, including wisdom teeth.</li><li>Cysts and other changes in the jawbone, including tumors.</li><li>Advanced gum disease.</li><li>Jaw joint (TMJ) problems and sinus problems.</li><li>Planning implants, dentures, braces and extractions.</li><li>How a child&#39;s teeth are developing.</li></ul><p class="xrd-srcline"><span class="xrd-cite"><a href="#xrd-src-1" aria-label="Source 1">1</a><a href="#xrd-src-7" aria-label="Source 7">7</a><a href="#xrd-src-18" aria-label="Source 18">18</a></span></p></section>
+    <section><h4>What it can't show well</h4><ul><li>Less detail for each tooth. It isn&#39;t the best way to find cavities unless the decay is advanced.</li><li>Parts of the picture can be blurred or stretched, so exact measurements aren&#39;t possible.</li><li>Position matters: a small tilt of the head can distort the image.</li></ul><p class="xrd-srcline"><span class="xrd-cite"><a href="#xrd-src-1" aria-label="Source 1">1</a><a href="#xrd-src-7" aria-label="Source 7">7</a><a href="#xrd-src-18" aria-label="Source 18">18</a></span></p></section>
+  </div>
+  <dl class="xrd-facts">
+    <div><dt>Radiation</dt><dd><strong>14 to 75 µSv</strong><span>14 to 30 µSv with a digital (CCD) sensor, 19 to 75 µSv with a phosphor plate. RadiologyInfo gives a typical 25 µSv, about 3 days of natural background. <span class="xrd-cite"><a href="#xrd-src-8" aria-label="Source 8">8</a><a href="#xrd-src-19" aria-label="Source 19">19</a></span></span></dd></div>
+    <div><dt>How often</dt><dd><span>When the whole mouth needs checking: wisdom teeth, growth in children and teens, or planning larger treatment. <span class="xrd-cite"><a href="#xrd-src-7" aria-label="Source 7">7</a><a href="#xrd-src-18" aria-label="Source 18">18</a></span></span></dd></div>
+    <div><dt>Typical U.S. price, no insurance</dt><dd><strong>$75–$343</strong><span>per image. Ranges from cost guides and financing companies; your office's fee may differ. <span class="xrd-cite"><a href="#xrd-src-10" aria-label="Source 10">10</a><a href="#xrd-src-20" aria-label="Source 20">20</a></span></span></dd></div>
+  </dl>
+</section>
+<section role="tabpanel" id="xrd-panel-cbct" class="xrd-panel" aria-labelledby="xrd-tab-cbct" hidden>
+  <div class="xrd-panel-top has-wide">
+    <figure class="xrd-figure" data-wide>
+      <div class="xrd-view">
+        <div class="xrd-seg" role="group" aria-label="Picture"><button type="button" class="xrd-viewbtn" data-view="drawing" aria-pressed="false">Drawing</button><button type="button" class="xrd-viewbtn" data-view="real" aria-pressed="true">Real <span class="xrd-nowrap">X-ray</span></button></div>
+        <button type="button" class="xrd-labbtn" aria-pressed="true">Labels</button>
+      </div>
+      <div class="xrd-drawing"><svg class="xrd-film" viewBox="0 0 320 250" role="img" aria-labelledby="xrd-art-cbct-t xrd-art-cbct-d">
+<title id="xrd-art-cbct-t">What one CBCT scan covers</title><desc id="xrd-art-cbct-d">A three-dimensional block drawn around several upper and lower teeth with their roots and bone. A small scan covers about five teeth; larger scans cover one or both jaws or most of the face.</desc>
+<rect width="320" height="250" rx="12" fill="#0a1520"/>
+<rect x="8" y="8" width="304" height="100" rx="6" fill="#1c2d3f"/><rect x="8" y="142" width="304" height="100" rx="6" fill="#1c2d3f"/>
+<rect x="8" y="98" width="304" height="10" fill="#2b4058"/><rect x="8" y="142" width="304" height="10" fill="#2b4058"/>
+<path d="M33.38,76 L53.1,76 L46.7896,20 Q43.24,15 39.690400000000004,20 Z" fill="#bccad8"/><path d="M43.24,76 L43.24,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M58.900000000000006,76 L78.62,76 L72.3096,20 Q68.76,15 65.2104,20 Z" fill="#bccad8"/><path d="M68.76,76 L68.76,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M27,76 L85,76 L85,113 Q85,122 76,122 L36,122 Q27,122 27,113 Z" fill="#bccad8"/><path d="M28,104 L84,104 L84,113 Q84,121 76,121 L36,121 Q28,121 28,113 Z" fill="#f1f5f9"/><rect x="44.4" y="78" width="23.200000000000003" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M101.38,76 L121.1,76 L114.7896,20 Q111.24,15 107.6904,20 Z" fill="#bccad8"/><path d="M111.24,76 L111.24,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M126.89999999999999,76 L146.62,76 L140.3096,20 Q136.76,15 133.2104,20 Z" fill="#bccad8"/><path d="M136.76,76 L136.76,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M95,76 L153,76 L153,113 Q153,122 144,122 L104,122 Q95,122 95,113 Z" fill="#bccad8"/><path d="M96,104 L152,104 L152,113 Q152,121 144,121 L104,121 Q96,121 96,113 Z" fill="#f1f5f9"/><rect x="112.4" y="78" width="23.200000000000003" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M178.88,76 L199.12,76 L192.6432,20 Q189,15 185.3568,20 Z" fill="#bccad8"/><path d="M189,76 L189,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M167,76 L211,76 L211,113 Q211,122 202,122 L176,122 Q167,122 167,113 Z" fill="#bccad8"/><path d="M168,104 L210,104 L210,113 Q210,121 202,121 L176,121 Q168,121 168,113 Z" fill="#f1f5f9"/><rect x="180.2" y="78" width="17.6" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M236.88,76 L257.12,76 L250.6432,20 Q247,15 243.3568,20 Z" fill="#bccad8"/><path d="M247,76 L247,26" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M225,76 L269,76 L269,113 Q269,122 260,122 L234,122 Q225,122 225,113 Z" fill="#bccad8"/><path d="M226,104 L268,104 L268,113 Q268,121 260,121 L234,121 Q226,121 226,113 Z" fill="#f1f5f9"/><rect x="238.2" y="78" width="17.6" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M33.38,176 L53.1,176 L46.7896,228 Q43.24,233 39.690400000000004,228 Z" fill="#bccad8"/><path d="M43.24,176 L43.24,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M58.900000000000006,176 L78.62,176 L72.3096,228 Q68.76,233 65.2104,228 Z" fill="#bccad8"/><path d="M68.76,176 L68.76,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M27,176 L85,176 L85,139 Q85,130 76,130 L36,130 Q27,130 27,139 Z" fill="#bccad8"/><path d="M28,148 L84,148 L84,139 Q84,131 76,131 L36,131 Q28,131 28,139 Z" fill="#f1f5f9"/><rect x="44.4" y="155.6" width="23.200000000000003" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M101.38,176 L121.1,176 L114.7896,228 Q111.24,233 107.6904,228 Z" fill="#bccad8"/><path d="M111.24,176 L111.24,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M126.89999999999999,176 L146.62,176 L140.3096,228 Q136.76,233 133.2104,228 Z" fill="#bccad8"/><path d="M136.76,176 L136.76,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M95,176 L153,176 L153,139 Q153,130 144,130 L104,130 Q95,130 95,139 Z" fill="#bccad8"/><path d="M96,148 L152,148 L152,139 Q152,131 144,131 L104,131 Q96,131 96,139 Z" fill="#f1f5f9"/><rect x="112.4" y="155.6" width="23.200000000000003" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M178.88,176 L199.12,176 L192.6432,228 Q189,233 185.3568,228 Z" fill="#bccad8"/><path d="M189,176 L189,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M167,176 L211,176 L211,139 Q211,130 202,130 L176,130 Q167,130 167,139 Z" fill="#bccad8"/><path d="M168,148 L210,148 L210,139 Q210,131 202,131 L176,131 Q168,131 168,139 Z" fill="#f1f5f9"/><rect x="180.2" y="155.6" width="17.6" height="18.400000000000002" rx="5" fill="#33465a"/><path d="M236.88,176 L257.12,176 L250.6432,228 Q247,233 243.3568,228 Z" fill="#bccad8"/><path d="M247,176 L247,222" stroke="#33465a" stroke-width="2.2" stroke-linecap="round"/><path d="M225,176 L269,176 L269,139 Q269,130 260,130 L234,130 Q225,130 225,139 Z" fill="#bccad8"/><path d="M226,148 L268,148 L268,139 Q268,131 260,131 L234,131 Q226,131 226,139 Z" fill="#f1f5f9"/><rect x="238.2" y="155.6" width="17.6" height="18.400000000000002" rx="5" fill="#33465a"/>
+<path d="M70,70 L200,70 L200,200 L70,200 Z" fill="rgba(242,181,60,0.13)" stroke="#f2b53c" stroke-width="2.5"/>
+<path d="M70,70 L110,40 L240,40 L200,70 M240,40 L240,170 L200,200" fill="none" stroke="#f2b53c" stroke-width="2.5"/>
+<path d="M70,200 L110,170 L240,170 M110,40 L110,170" fill="none" stroke="#f2b53c" stroke-width="1.5" stroke-dasharray="5 5" opacity="0.8"/>
+<rect x="64" y="216" width="98" height="20" rx="4" fill="#0a1520" opacity="0.92"/>
+<text x="70" y="230" fill="#f7d58a" font-family="Oswald, Arial Narrow, sans-serif" font-size="13" letter-spacing="0.8">3D VOLUME</text>
+</svg></div>
+      <div class="xrd-real"><div class="xrd-stage"><img src="{{XRD_IMG_cbct}}" width="1200" height="607" alt="Real CBCT viewing screen in four parts: a slice of the dental arch seen from above, a slice from the side through the front teeth and the spine, a slice from the front through the jaws, and a 3D model of the skull and teeth." decoding="async"><div class="xrd-labs" aria-hidden="true"><span class="xrd-lab is-r" style="left:25%;top:42%"><i></i><b>Top-down slice</b></span><span class="xrd-lab is-r" style="left:58.5%;top:28%"><i></i><b>Side slice</b></span><span class="xrd-lab is-b" style="left:84%;top:33%"><i></i><b>Spine</b></span><span class="xrd-lab is-r" style="left:14.5%;top:76%"><i></i><b>Front slice</b></span><span class="xrd-lab is-l" style="left:80%;top:78%"><i></i><b>3D model</b></span></div></div></div>
+      <figcaption><span class="xrd-cap-drawing">A 3D block. Small scans cover about five teeth; large ones most of the face. <span class="xrd-schem">Schematic drawing, not a real <span class="xrd-nowrap">X-ray</span>.</span></span><span class="xrd-cap-real">A real CBCT, shown the usual way: three flat slices through the 3D block, plus a 3D model. The colored lines mark where the slices cross. <span class="xrd-schem">Labels are approximate, for orientation only.</span><span class="xrd-credit">Image: <a href="https://commons.wikimedia.org/wiki/File:CBCT_image_01.png" target="_blank" rel="noopener">“CBCT image 01”</a> by Panda 51, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>, via Wikimedia Commons. Resized and saved as JPEG. The edited image is shared under the same license.</span></span></figcaption>
+    </figure>
+    <div class="xrd-intro">
+      <h3>Cone-beam CT (CBCT)</h3>
+      <p class="xrd-pills"><span class="xrd-pill">3D</span><span class="xrd-pill">Outside the mouth</span><span class="xrd-pill is-review" title="Clinical wording awaiting Dr Paris's review">Draft · clinical review</span></p>
+      <p class="xrd-covers"><span class="xrd-k">One image covers</span>A 3D block of your teeth and jaws. The block can be small (about five teeth), medium (one or both jaws) or large (most of the face and skull). <span class="xrd-cite"><a href="#xrd-src-16" aria-label="Source 16">16</a><a href="#xrd-src-21" aria-label="Source 21">21</a></span></p>
+      <p><span class="xrd-k">How it's taken</span>Taken outside the mouth. The machine rotates around your head and builds a 3D image the dentist can slice in any direction. It isn&#39;t the same as a hospital CT scan. <span class="xrd-cite"><a href="#xrd-src-22" aria-label="Source 22">22</a><a href="#xrd-src-23" aria-label="Source 23">23</a></span></p>
+      <div class="xrd-onplan"><span class="xrd-k">On your plan</span><p><span class="xrd-chip">CBCT</span><span class="xrd-chip">Cone beam</span><span class="xrd-chip">Cone beam CT</span><span class="xrd-chip">3D scan</span></p><p class="xrd-codes"><span><b>D0364</b> small field, less than one whole jaw</span><span><b>D0365</b> one full arch, lower</span><span><b>D0366</b> one full arch, upper</span><span><b>D0367</b> both jaws</span><span><b>D0368</b> jaw joints</span> <span class="xrd-cite"><a href="#xrd-src-4" aria-label="Source 4">4</a></span></p></div>
+    </div>
+  </div>
+  <div class="xrd-three">
+    <section><h4>What it shows</h4><ul><li>Teeth, roots and bone in three dimensions</li><li>The width and height of the jawbone</li><li>The path of the nerve canals</li><li>The sinuses</li><li>The bony parts of the jaw joints</li></ul><p class="xrd-srcline"><span class="xrd-cite"><a href="#xrd-src-23" aria-label="Source 23">23</a><a href="#xrd-src-24" aria-label="Source 24">24</a></span></p></section>
+    <section><h4>What it can help a dentist find</h4><ul><li>Planning dental implants.</li><li>Planning surgery for impacted teeth.</li><li>Complex root canal anatomy, extra canals, and suspected root cracks when regular X-rays are inconclusive.</li><li>Roots wearing away (resorption) and some dental injuries.</li><li>Jaw, sinus and jaw-joint bone problems, and planning for braces or jaw surgery.</li></ul><p class="xrd-srcline"><span class="xrd-cite"><a href="#xrd-src-14" aria-label="Source 14">14</a><a href="#xrd-src-22" aria-label="Source 22">22</a><a href="#xrd-src-23" aria-label="Source 23">23</a></span></p></section>
+    <section><h4>What it can't show well</h4><ul><li>Not for routine checks or screening. Current ADA guidance says it shouldn&#39;t be the first or only imaging.</li><li>Soft tissues don&#39;t show well: muscles, glands, nerves, or the disc inside the jaw joint. MRI or medical CT is used for those.</li><li>Metal fillings, crowns and braces can cause streaks that hide detail.</li><li>Moving during the scan blurs it.</li><li>More radiation than regular dental X-rays, so the smallest area needed should be scanned.</li></ul><p class="xrd-srcline"><span class="xrd-cite"><a href="#xrd-src-8" aria-label="Source 8">8</a><a href="#xrd-src-14" aria-label="Source 14">14</a><a href="#xrd-src-22" aria-label="Source 22">22</a><a href="#xrd-src-23" aria-label="Source 23">23</a><a href="#xrd-src-24" aria-label="Source 24">24</a><a href="#xrd-src-25" aria-label="Source 25">25</a></span></p></section>
+  </div>
+  <dl class="xrd-facts">
+    <div><dt>Radiation</dt><dd><strong>19 to 1,073 µSv, depending on the area scanned</strong><span>Adults: small field 19 to 652 µSv, medium 45 to 860, large 68 to 1,073. RadiologyInfo gives a typical 180 µSv, about 22 days of natural background. <span class="xrd-cite"><a href="#xrd-src-8" aria-label="Source 8">8</a><a href="#xrd-src-19" aria-label="Source 19">19</a></span></span></dd></div>
+    <div><dt>How often</dt><dd><span>Only when regular X-rays can&#39;t answer the question, such as implant planning or a complex case. <span class="xrd-cite"><a href="#xrd-src-8" aria-label="Source 8">8</a><a href="#xrd-src-14" aria-label="Source 14">14</a><a href="#xrd-src-26" aria-label="Source 26">26</a></span></span></dd></div>
+    <div><dt>Typical U.S. price, no insurance</dt><dd><strong>about $250–$880</strong><span>per scan. Ranges from cost guides and financing companies; your office's fee may differ. <span class="xrd-cite"><a href="#xrd-src-20" aria-label="Source 20">20</a><a href="#xrd-src-27" aria-label="Source 27">27</a></span></span></dd></div>
+  </dl>
+</section>
+  </section>
+
+  <section class="xrd-compare" aria-labelledby="xrd-compare-h">
+    <h2 id="xrd-compare-h">Side by side</h2>
+    <div class="xrd-tablewrap"><table class="xrd-table"><caption class="xrd-sr">The four dental X-rays compared</caption><thead><tr><th scope="col"><span class="xrd-sr">Feature</span></th><th scope="col"><a href="#xrd-panel-bitewing" data-go="bitewing">Bitewings</a></th><th scope="col"><a href="#xrd-panel-periapical" data-go="periapical">Periapical</a></th><th scope="col"><a href="#xrd-panel-panoramic" data-go="panoramic">Panoramic</a></th><th scope="col"><a href="#xrd-panel-cbct" data-go="cbct">CBCT</a></th></tr></thead><tbody><tr><th scope="row">Image</th><td>2D</td><td>2D</td><td>2D</td><td>3D</td></tr><tr><th scope="row">Taken</th><td>Inside the mouth</td><td>Inside the mouth</td><td>Outside the mouth</td><td>Outside the mouth</td></tr><tr><th scope="row">One image covers</th><td>Upper and lower back teeth, crowns down to the bone</td><td>One or two whole teeth, crown to root tip</td><td>The whole mouth, both jaws</td><td>A 3D block, from a few teeth to most of the face</td></tr><tr><th scope="row">Best known for</th><td>Decay between the back teeth</td><td>Problems at the root tip</td><td>Wisdom teeth and a full-jaw overview</td><td>Implant and surgery planning</td></tr><tr><th scope="row">Can&#39;t show well</th><td>Root tips</td><td>Roots and canals hidden behind each other</td><td>Small cavities and fine detail</td><td>Soft tissues</td></tr><tr><th scope="row">Radiation, <span class="xrd-unit">µSv</span></th><td>3.4–5.0 for a set of four</td><td>about 1.5 or less per image</td><td>14–75</td><td>19–1,073</td></tr><tr><th scope="row">Typical price, no insurance</th><td>$20–$120</td><td>$15–$100 per image</td><td>$75–$343</td><td>about $250–$880</td></tr><tr><th scope="row">Code on a plan</th><td>D0272, D0274</td><td>D0220, D0230</td><td>D0330</td><td>D0364, D0365, D0366, D0367</td></tr></tbody></table></div>
+    <section class="xrd-fmx"><h3>Full-mouth series (FMX)</h3><p>A set of periapicals plus bitewings that together show the crowns and roots of every tooth and the bone around them. <span class="xrd-cite"><a href="#xrd-src-2" aria-label="Source 2">2</a><a href="#xrd-src-37" aria-label="Source 37">37</a></span></p><p>About 35 µSv for an adult set of 18 images with a rectangular beam, up to about 171 µSv with an older round beam. <span class="xrd-cite"><a href="#xrd-src-8" aria-label="Source 8">8</a></span> Typically $60 to $430 per visit for a full set or a panoramic. <span class="xrd-cite"><a href="#xrd-src-9" aria-label="Source 9">9</a><a href="#xrd-src-11" aria-label="Source 11">11</a><a href="#xrd-src-12" aria-label="Source 12">12</a></span></p><p class="xrd-codes"><span><b>D0210</b> comprehensive series of radiographic images</span> · On plans: FMX, Full mouth series, Full mouth X-rays, Complete series</p></section>
+  </section>
+
+  <section class="xrd-dose" aria-labelledby="xrd-dose-h">
+    <h2 id="xrd-dose-h">Radiation, compared</h2>
+    <p class="xrd-sub">Effective dose for adults, with a medical head CT for comparison. People in the U.S. get about 3.1 mSv (3,100 µSv) a year from natural background radiation, about 8.5 µSv a day. <span class="xrd-cite"><a href="#xrd-src-19" aria-label="Source 19">19</a><a href="#xrd-src-28" aria-label="Source 28">28</a></span></p>
+    <div class="xrd-chartwrap"><svg class="xrd-chart" viewBox="0 0 760 378" role="img" aria-labelledby="xrd-chart-t xrd-chart-d"><title id="xrd-chart-t">Radiation dose by type of dental X-ray</title><desc id="xrd-chart-d">Ranges in microsieverts on a log scale: periapical about 1.5 or less per image; bitewings 3.4 to 5.0; panoramic 14 to 75; full-mouth series 35 to 171; CBCT small 19 to 652, medium 45 to 860, large 68 to 1,073; medical head CT 860 to 1,500. One day of natural background is about 8.5.</desc><line x1="232" y1="44" x2="232" y2="320" class="xrd-grid"/><text x="232" y="338" text-anchor="middle" class="xrd-tick">1</text><line x1="370.7445738456176" y1="44" x2="370.7445738456176" y2="320" class="xrd-grid"/><text x="370.7445738456176" y="338" text-anchor="middle" class="xrd-tick">10</text><line x1="509.4891476912352" y1="44" x2="509.4891476912352" y2="320" class="xrd-grid"/><text x="509.4891476912352" y="338" text-anchor="middle" class="xrd-tick">100</text><line x1="648.2337215368527" y1="44" x2="648.2337215368527" y2="320" class="xrd-grid"/><text x="648.2337215368527" y="338" text-anchor="middle" class="xrd-tick">1,000</text><line x1="360.9032588052694" y1="32" x2="360.9032588052694" y2="320" class="xrd-refline"/><text x="365.9032588052694" y="28" class="xrd-reflabel">1 day of natural background</text><line x1="566.6769482668894" y1="32" x2="566.6769482668894" y2="320" class="xrd-refline"/><text x="571.6769482668894" y="28" class="xrd-reflabel">1 month</text><g class="xrd-row" tabindex="0" data-tip="Periapical, one image: about 1.5 µSv or less. That is less than 1 day of natural background radiation."><rect x="0" y="53" width="760" height="32" class="xrd-hit"/><text x="218" y="69" text-anchor="end" class="xrd-rowlabel">Periapical, one image</text><circle cx="256.43170669561874" cy="65" r="5.5" class="xrd-mark"/><text x="268.43170669561874" y="69" class="xrd-val">≤ 1.5</text></g><g class="xrd-row" tabindex="0" data-tip="Bitewings, set of four: 3.4 to 5 µSv. That is less than 1 day to less than 1 day of natural background radiation."><rect x="0" y="87" width="760" height="32" class="xrd-hit"/><text x="218" y="103" text-anchor="end" class="xrd-rowlabel">Bitewings, set of four</text><rect x="305.73981585295803" y="95" width="23.238479529512404" height="8" rx="4" class="xrd-mark"/><text x="338.97829538247044" y="103" class="xrd-val">3.4–5.0</text></g><g class="xrd-row" tabindex="0" data-tip="Panoramic: 14.2 to 75 µSv. That is about 2 days to 9 days of natural background radiation."><rect x="0" y="121" width="760" height="32" class="xrd-hit"/><text x="218" y="137" text-anchor="end" class="xrd-rowlabel">Panoramic</text><rect x="391.87375528869944" y="129" width="100.28082063500733" height="8" rx="4" class="xrd-mark"/><text x="502.1545759237068" y="137" class="xrd-val">14–75</text></g><g class="xrd-row" tabindex="0" data-tip="Full-mouth series, 18 images: 34.9 to 171 µSv. That is about 4 days to 20 days of natural background radiation."><rect x="0" y="155" width="760" height="32" class="xrd-hit"/><text x="218" y="171" text-anchor="end" class="xrd-rowlabel">Full-mouth series, 18 images</text><rect x="446.0586563816345" y="163" width="95.65163222933165" height="8" rx="4" class="xrd-mark"/><text x="551.7102886109661" y="171" class="xrd-val">35–171</text></g><g class="xrd-row" tabindex="0" data-tip="CBCT, small field: 19 to 652 µSv. That is about 2 days to 77 days of natural background radiation."><rect x="0" y="189" width="760" height="32" class="xrd-hit"/><text x="218" y="205" text-anchor="end" class="xrd-rowlabel">CBCT, small field</text><rect x="409.4201234177492" y="197" width="213.04145994813007" height="8" rx="4" class="xrd-mark"/><text x="632.4615833658793" y="205" class="xrd-val">19–652</text></g><g class="xrd-row" tabindex="0" data-tip="CBCT, medium field: 45 to 860 µSv. That is about 5 days to 101 days of natural background radiation."><rect x="0" y="223" width="760" height="32" class="xrd-hit"/><text x="218" y="239" text-anchor="end" class="xrd-rowlabel">CBCT, medium field</text><rect x="461.3742657000023" y="231" width="177.7714713684113" height="8" rx="4" class="xrd-mark"/><text x="649.1457370684136" y="239" class="xrd-val">45–860</text></g><g class="xrd-row" tabindex="0" data-tip="CBCT, large field: 68 to 1,073 µSv. That is about 8 days to 126 days of natural background radiation."><rect x="0" y="257" width="760" height="32" class="xrd-hit"/><text x="218" y="273" text-anchor="end" class="xrd-rowlabel">CBCT, large field</text><rect x="486.25066816172284" y="265" width="166.22859875909023" height="8" rx="4" class="xrd-mark"/><text x="662.4792669208131" y="273" class="xrd-val">68–1,073</text></g><g class="xrd-row is-ref" tabindex="0" data-tip="Medical head CT, for comparison: 860 to 1,500 µSv. That is about 101 days to 177 days of natural background radiation."><rect x="0" y="291" width="760" height="32" class="xrd-hit"/><text x="218" y="307" text-anchor="end" class="xrd-rowlabel">Medical head CT, for comparison</text><rect x="639.1457370684136" y="299" width="33.51969116405803" height="8" rx="4" class="xrd-mark"/><text x="682.6654282324716" y="307" class="xrd-val">860–1,500</text></g><text x="461" y="370" text-anchor="middle" class="xrd-axis">Effective dose in microsieverts (µSv), adults. Log scale: each step is ten times more.</text></svg><div class="xrd-tip" role="status" aria-live="polite" hidden></div></div>
+    <p class="xrd-srcline">Ranges: <span class="xrd-cite"><a href="#xrd-src-8" aria-label="Source 8">8</a><a href="#xrd-src-16" aria-label="Source 16">16</a></span> Doses vary with the machine, the settings and the size of the area imaged.</p>
+  </section>
+
+  <section class="xrd-know" aria-labelledby="xrd-know-h">
+    <h2 id="xrd-know-h">Good to know</h2>
+    <div class="xrd-know-grid"><section class="xrd-note"><h3>X-rays should be based on need</h3><p>There is no single schedule that fits everyone. The ADA&#39;s 2026 guidance with the AAOMR says X-rays should be ordered only after the dentist has looked at your medical and dental history, earlier X-rays and today&#39;s exam. <span class="xrd-cite"><a href="#xrd-src-26" aria-label="Source 26">26</a><a href="#xrd-src-28" aria-label="Source 28">28</a><a href="#xrd-src-29" aria-label="Source 29">29</a></span></p><p class="xrd-review">Draft · clinical review</p></section><section class="xrd-note"><h3>Lead aprons and thyroid collars</h3><p>Since 2024 the ADA no longer recommends routine thyroid or abdominal shielding for dental X-rays, for patients of any age, including during pregnancy. Shields can block the image and lead to retakes. Some states, such as Indiana, still require shielding by law. <span class="xrd-cite"><a href="#xrd-src-8" aria-label="Source 8">8</a><a href="#xrd-src-30" aria-label="Source 30">30</a><a href="#xrd-src-31" aria-label="Source 31">31</a></span></p><p class="xrd-review">Draft · clinical review</p></section><section class="xrd-note"><h3>Pregnancy</h3><p>The ADA says dental X-rays are considered safe at any stage of pregnancy. Tell your dentist if you are or might be pregnant. <span class="xrd-cite"><a href="#xrd-src-23" aria-label="Source 23">23</a><a href="#xrd-src-32" aria-label="Source 32">32</a></span></p><p class="xrd-review">Draft · clinical review</p></section><section class="xrd-note"><h3>Your copies</h3><p>Under HIPAA you have the right to copies of your own X-rays. The office generally has 30 days to respond, can&#39;t charge a fee just for you to look at them, and can&#39;t refuse because of an unpaid bill. <span class="xrd-cite"><a href="#xrd-src-33" aria-label="Source 33">33</a><a href="#xrd-src-34" aria-label="Source 34">34</a><a href="#xrd-src-35" aria-label="Source 35">35</a><a href="#xrd-src-36" aria-label="Source 36">36</a></span></p></section></div>
+  </section>
+
+  <aside class="xrd-next">
+    <p><strong>Got a treatment plan too?</strong> The <a href="https://911dentist.org/dental-treatment-plan-decoder/">Dental Treatment Plan Decoder</a> explains each line and its typical price without insurance.</p>
+  </aside>
+
+  <section class="xrd-sources" aria-labelledby="xrd-src-h">
+    <h2 id="xrd-src-h">Sources</h2>
+    <ol><li id="xrd-src-1"><a href="https://medlineplus.gov/ency/article/003801.htm" target="_blank" rel="noopener">MedlinePlus: Dental x-rays</a> <span class="xrd-class">government</span></li><li id="xrd-src-2"><a href="https://www.ihs.gov/dentalcde/documents/Chapter%203%20-%20Radiographic%20technique.pdf" target="_blank" rel="noopener">Indian Health Service: Radiographic technique</a> <span class="xrd-class">government</span></li><li id="xrd-src-3"><a href="https://www.ihs.gov/dentalcde/documents/Chapter%207%20-%20Special%20Techniques.pdf" target="_blank" rel="noopener">Indian Health Service: Special techniques</a> <span class="xrd-class">government</span></li><li id="xrd-src-4"><a href="https://dental.dhcs.ca.gov/MCD_documents/providers/MOC_CDT26_May_27.pdf" target="_blank" rel="noopener">Medi-Cal Dental Manual of Criteria, CDT-26 code list (May 2026)</a> <span class="xrd-class">government</span></li><li id="xrd-src-5"><a href="https://columbia.edu/itc/hs/dental/juniors/material/caries.pdf" target="_blank" rel="noopener">Columbia University College of Dental Medicine: Caries (teaching notes)</a> <span class="xrd-class">academic</span></li><li id="xrd-src-6"><a href="https://ccnmtl.columbia.edu/broadcast/hs/dental/oralradiology2/2008/periodontal.pdf" target="_blank" rel="noopener">Columbia University College of Dental Medicine: Periodontal disease (teaching notes)</a> <span class="xrd-class">academic</span></li><li id="xrd-src-7"><a href="https://www.fda.gov/radiation-emitting-products/medical-x-ray-imaging/selection-patients-dental-radiographic-examinations" target="_blank" rel="noopener">FDA / ADA: Selection of patients for dental radiographic examinations (2012)</a> <span class="xrd-class">government</span></li><li id="xrd-src-8"><a href="https://doi.org/10.1016/j.adaj.2023.12.002" target="_blank" rel="noopener">Benavides et al., Optimizing radiation safety in dentistry, JADA 2024;155(4):280-293</a> <span class="xrd-class">peer-reviewed</span></li><li id="xrd-src-9"><a href="https://health.costhelper.com/dental-x-ray.html" target="_blank" rel="noopener">CostHelper: Dental X-ray cost</a> <span class="xrd-class">cost guide</span></li><li id="xrd-src-10"><a href="https://sunbit.com/knowledge-center/dental/dental-tips/dental-x-ray-cost-guide/" target="_blank" rel="noopener">Sunbit: Dental X-ray cost guide (Nov 2025)</a> <span class="xrd-class">company (financing)</span></li><li id="xrd-src-11"><a href="https://www.carecredit.com/well-u/health-wellness/dental-x-ray-cost/" target="_blank" rel="noopener">CareCredit: Dental X-ray cost</a> <span class="xrd-class">company (financing)</span></li><li id="xrd-src-12"><a href="https://www.authoritydental.org/dental-x-ray-cost" target="_blank" rel="noopener">Authority Dental: Dental X-ray cost</a> <span class="xrd-class">cost guide</span></li><li id="xrd-src-13"><a href="https://www.aae.org/specialty/wp-content/uploads/sites/2/2017/07/aaeconsensusconferencerecommendeddiagnosticterminology.pdf" target="_blank" rel="noopener">AAE: Recommended diagnostic terminology</a> <span class="xrd-class">professional</span></li><li id="xrd-src-14"><a href="https://www.aae.org/specialty/wp-content/uploads/sites/2/2017/07/conebeamstatement.pdf" target="_blank" rel="noopener">AAE and AAOMR joint position statement on CBCT in endodontics</a> <span class="xrd-class">professional</span></li><li id="xrd-src-15"><a href="https://my.clevelandclinic.org/health/articles/dental-x-rays" target="_blank" rel="noopener">Cleveland Clinic: Dental X-rays</a> <span class="xrd-class">health system</span></li><li id="xrd-src-16"><a href="https://energy.ec.europa.eu/system/files/2014-11/172_1.pdf" target="_blank" rel="noopener">European Commission Radiation Protection 172: CBCT for dental and maxillofacial radiology (2012)</a> <span class="xrd-class">government</span></li><li id="xrd-src-17"><a href="https://www.aapd.org/globalassets/media/safety-toolkit/radiation-safety-in-dentistry-fdi.pdf" target="_blank" rel="noopener">FDI World Dental Federation: Radiation safety in dentistry (2014)</a> <span class="xrd-class">professional</span></li><li id="xrd-src-18"><a href="https://www.radiologyinfo.org/en/info/panoramic" target="_blank" rel="noopener">RadiologyInfo (ACR and RSNA): Panoramic dental x-ray</a> <span class="xrd-class">professional</span></li><li id="xrd-src-19"><a href="https://www.radiologyinfo.org/en/info/safety-xray" target="_blank" rel="noopener">RadiologyInfo (ACR and RSNA): Radiation dose in X-ray and CT exams</a> <span class="xrd-class">professional</span></li><li id="xrd-src-20"><a href="https://www.carecredit.com/well-u/health-wellness/why-you-need-dental-x-rays/" target="_blank" rel="noopener">CareCredit: Why you need dental X-rays (2024 Synchrony cost study)</a> <span class="xrd-class">company (financing)</span></li><li id="xrd-src-21"><a href="https://www.dentalcare.com/en-us/ce-courses/ce531/principles-of-cbct" target="_blank" rel="noopener">dentalcare.com CE531: Principles of CBCT (Texas A&amp;M faculty; hosted by Procter &amp; Gamble)</a> <span class="xrd-class">continuing education</span></li><li id="xrd-src-22"><a href="https://www.fda.gov/radiation-emitting-products/medical-x-ray-imaging/dental-cone-beam-computed-tomography" target="_blank" rel="noopener">FDA: Dental cone-beam computed tomography</a> <span class="xrd-class">government</span></li><li id="xrd-src-23"><a href="https://www.radiologyinfo.org/en/info/dentalconect" target="_blank" rel="noopener">RadiologyInfo (ACR and RSNA): Dental cone beam CT</a> <span class="xrd-class">professional</span></li><li id="xrd-src-24"><a href="https://www.dentalcare.com/en-us/ce-courses/ce531/temporomandibular-joints-tmjs" target="_blank" rel="noopener">dentalcare.com CE531: CBCT of the jaw joints</a> <span class="xrd-class">continuing education</span></li><li id="xrd-src-25"><a href="https://www.dentalcare.com/en-us/ce-courses/ce531/image-artifacts" target="_blank" rel="noopener">dentalcare.com CE531: CBCT image artifacts</a> <span class="xrd-class">continuing education</span></li><li id="xrd-src-26"><a href="https://www.ada.org/about/press-releases/new-recommendations-confirm-dental-x-rays-most-effectively-used-in-moderation" target="_blank" rel="noopener">ADA press release: Dental X-rays most effectively used in moderation (Jan 2026)</a> <span class="xrd-class">professional</span></li><li id="xrd-src-27"><a href="https://www.thepricer.org/cone-beam-ct-scan-cost/" target="_blank" rel="noopener">ThePricer: Cone beam CT scan cost (Aug 2026)</a> <span class="xrd-class">cost guide</span></li><li id="xrd-src-28"><a href="https://www.ada.org/resources/ada-library/oral-health-topics/x-rays-radiographs" target="_blank" rel="noopener">ADA Oral Health Topics: X-rays / radiographs</a> <span class="xrd-class">professional</span></li><li id="xrd-src-29"><a href="https://www.fda.gov/media/84818/download" target="_blank" rel="noopener">FDA / ADA: Dental radiographic examinations, full guidance (2012)</a> <span class="xrd-class">government</span></li><li id="xrd-src-30"><a href="https://adanews.ada.org/ada-news/2024/january/using-thyroid-collars-during-radiographic-exams-no-longer-recommended-by-ada/" target="_blank" rel="noopener">ADA News: Thyroid collars no longer recommended (Feb 2024)</a> <span class="xrd-class">professional</span></li><li id="xrd-src-31"><a href="https://indental.org/ida-news/update-on-dental-radiation-shielding/" target="_blank" rel="noopener">Indiana Dental Association: Update on dental radiation shielding</a> <span class="xrd-class">professional</span></li><li id="xrd-src-32"><a href="https://www.ada.org/en/resources/ada-library/oral-health-topics/pregnancy" target="_blank" rel="noopener">ADA Oral Health Topics: Pregnancy</a> <span class="xrd-class">professional</span></li><li id="xrd-src-33"><a href="https://www.hhs.gov/hipaa/for-professionals/faq/2059/do-individuals-have-a-right-under-hipaa-to-get-copies/index.html" target="_blank" rel="noopener">HHS: Right to get copies of X-rays and images (HIPAA FAQ 2059)</a> <span class="xrd-class">government</span></li><li id="xrd-src-34"><a href="https://www.hhs.gov/hipaa/for-professionals/faq/2050/how-timely-must-a-covered-entity-be/index.html" target="_blank" rel="noopener">HHS: How quickly a provider must respond (HIPAA FAQ 2050)</a> <span class="xrd-class">government</span></li><li id="xrd-src-35"><a href="https://www.hhs.gov/hipaa/for-professionals/faq/2035/can-an-individual-be-charged-a-fee-if-the-individual/index.html" target="_blank" rel="noopener">HHS: No fee just to inspect records (HIPAA FAQ 2035)</a> <span class="xrd-class">government</span></li><li id="xrd-src-36"><a href="https://www.hhs.gov/hipaa/for-professionals/faq/2065/is-a-health-care-provider-permitted-to-deny/index.html" target="_blank" rel="noopener">HHS: Access can&#39;t be denied over an unpaid bill (HIPAA FAQ 2065)</a> <span class="xrd-class">government</span></li><li id="xrd-src-37"><a href="https://hcpf.colorado.gov/sites/hcpf/files/Covered%20Procedures%20for%20SDP%20Eff%207-1-2025%20%281%29.pdf" target="_blank" rel="noopener">Colorado HCPF: Covered dental procedures with CDT descriptors (July 2025)</a> <span class="xrd-class">government</span></li></ol>
+    <h3 class="xrd-credits-h">Image credits</h3>
+    <ul class="xrd-credits"><li>Bitewings: <a href="https://commons.wikimedia.org/wiki/File:ZELLFAZE_MN01_MP08_010.JPG" target="_blank" rel="noopener">“ZELLFAZE MN01 MP08 010”</a> by Dr Jeffrey Cross DDS, via Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>. Converted to grayscale and the white background darkened. The edited image is shared under the same license.</li><li>Periapical: <a href="https://commons.wikimedia.org/wiki/File:ZELLFAZE_MN01_MP16_005.JPG" target="_blank" rel="noopener">“ZELLFAZE MN01 MP16 005”</a> by Dr Jeffrey Cross DDS, via Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>. Converted to grayscale and the white background darkened. The edited image is shared under the same license.</li><li>Panoramic: <a href="https://commons.wikimedia.org/wiki/File:Dental_Panorama_X-ray.jpg" target="_blank" rel="noopener">“Dental Panorama X-ray”</a> by Farhang Amini, via Wikimedia Commons, <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>. Cropped, converted to grayscale and resized.</li><li>CBCT: <a href="https://commons.wikimedia.org/wiki/File:CBCT_image_01.png" target="_blank" rel="noopener">“CBCT image 01”</a> by Panda 51, via Wikimedia Commons, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>. Resized and saved as JPEG. The edited image is shared under the same license.</li></ul>
+    <p class="xrd-fine2">Doses are in microsieverts (µSv). Prices are typical U.S. ranges without insurance from cost guides and financing companies, checked October 2026. General information, not a diagnosis or a quote.</p>
+  </section>
+  <p class="xrd-foot">911Dentist</p>
+</div>
+<script>/* Dental X-ray Decoder: tabs, the "which X-ray did you have?" picker, the drawing/real switch and chart tooltips. Nothing is sent or stored. */
+(function () {
+  var root = document.querySelector(".d911-xrd");
+  if (!root) return;
+  var tabs = Array.prototype.slice.call(root.querySelectorAll(".xrd-tab"));
+  var ids = tabs.map(function (t) { return t.getAttribute("data-id"); });
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function select(id, focusTab) {
+    if (ids.indexOf(id) === -1) return;
+    tabs.forEach(function (t) {
+      var on = t.getAttribute("data-id") === id;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      var panel = root.querySelector("#xrd-panel-" + t.getAttribute("data-id"));
+      if (panel) panel.hidden = !on;
+      if (on && focusTab) t.focus();
+    });
+    try { history.replaceState(null, "", "#" + id); } catch (e) {}
+  }
+
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { select(t.getAttribute("data-id"), false); });
+    t.addEventListener("keydown", function (e) {
+      var k = e.key, n = null;
+      if (k === "ArrowRight" || k === "ArrowDown") n = (i + 1) % tabs.length;
+      if (k === "ArrowLeft" || k === "ArrowUp") n = (i - 1 + tabs.length) % tabs.length;
+      if (k === "Home") n = 0;
+      if (k === "End") n = tabs.length - 1;
+      if (n !== null) { e.preventDefault(); select(ids[n], true); }
+    });
+  });
+
+  Array.prototype.forEach.call(root.querySelectorAll("[data-go]"), function (b) {
+    b.addEventListener("click", function (e) {
+      e.preventDefault();
+      var id = b.getAttribute("data-go");
+      select(id, false);
+      var target = root.querySelector(".xrd-tabs");
+      if (target && target.scrollIntoView) target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+      var tab = root.querySelector("#xrd-tab-" + id);
+      if (tab) setTimeout(function () { tab.focus({ preventScroll: true }); }, reduce ? 0 : 350);
+    });
+  });
+
+  /* Drawing / real X-ray switch: one setting for all four panels. */
+  var viewBtns = Array.prototype.slice.call(root.querySelectorAll(".xrd-viewbtn"));
+  var labBtns = Array.prototype.slice.call(root.querySelectorAll(".xrd-labbtn"));
+  viewBtns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      var v = b.getAttribute("data-view");
+      root.setAttribute("data-view", v);
+      viewBtns.forEach(function (x) { x.setAttribute("aria-pressed", x.getAttribute("data-view") === v ? "true" : "false"); });
+    });
+  });
+  labBtns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      var on = root.getAttribute("data-labels") !== "on";
+      root.setAttribute("data-labels", on ? "on" : "off");
+      labBtns.forEach(function (x) { x.setAttribute("aria-pressed", on ? "true" : "false"); });
+    });
+  });
+
+  var start = (location.hash || "").replace("#", "").replace("xrd-panel-", "");
+  if (ids.indexOf(start) !== -1) select(start, false);
+
+  var wrap = root.querySelector(".xrd-chartwrap");
+  var tip = root.querySelector(".xrd-tip");
+  if (wrap && tip) {
+    function show(row, x, y) {
+      tip.textContent = row.getAttribute("data-tip");
+      tip.hidden = false;
+      var w = wrap.getBoundingClientRect();
+      var left = Math.min(Math.max(8, x - w.left + wrap.scrollLeft + 14), wrap.scrollWidth - tip.offsetWidth - 8);
+      tip.style.left = left + "px";
+      tip.style.top = (y - w.top + 14) + "px";
+    }
+    function hide() { tip.hidden = true; }
+    Array.prototype.forEach.call(wrap.querySelectorAll(".xrd-row"), function (row) {
+      row.addEventListener("pointermove", function (e) { show(row, e.clientX, e.clientY); });
+      row.addEventListener("pointerleave", hide);
+      row.addEventListener("focus", function () { var r = row.getBoundingClientRect(); show(row, r.left + r.width * 0.45, r.top + 10); });
+      row.addEventListener("blur", hide);
+    });
+  }
+})();
+</script>
