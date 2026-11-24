@@ -49,68 +49,23 @@
         </div>
       </aside>
 
-      <div class="hero section-wrap">
-        <div class="hero-copy">
-          <p class="eyebrow" data-i18n="urgentGuidance">URGENT DENTAL GUIDANCE</p>
-          <h1 id="homeTitle" data-i18n="heroTitle">Know what to do next when dental pain cannot wait.</h1>
-          <p class="lead" data-i18n="heroCopy">Understand warning signs, find safe next steps, and continue to virtual consultation or second-opinion options on 911Dentist.org.</p>
-          <div class="button-row">
-            <button class="button primary" data-view="emergency"><span data-i18n="startEmergency">Start emergency guidance</span><span aria-hidden="true">→</span></button>
-            <button class="button secondary" data-view="consult" data-i18n="consultOptions">View consult options</button>
-          </div>
-          <ul class="trust-list" aria-label="App privacy and safety">
-            <li data-i18n="trustEducation">Education-first guidance</li>
-            <li data-i18n="trustNoDiagnosis">No automated diagnosis</li>
-            <li data-i18n="trustNoData">No patient data stored in this app</li>
-          </ul>
+      <div class="section-wrap home-tasks">
+        <h1 id="homeTitle" data-i18n="heroTitle">What do you need help with?</h1>
+        <div class="task-list">
+          <button data-view="emergency"><b data-i18n="urgentTask">Get urgent dental guidance</b><span aria-hidden="true">→</span></button>
+          <button data-view="find"><b data-i18n="findDentist">Find a dentist</b><span aria-hidden="true">→</span></button>
+          <button data-view="tools"><b data-i18n="planTask">Understand my treatment plan</b><span aria-hidden="true">→</span></button>
+          <button data-view="consult"><b data-i18n="consultOptions">Check online consult availability</b><span aria-hidden="true">→</span></button>
         </div>
-
-        <div class="decision-panel" aria-labelledby="decisionTitle">
-          <p class="panel-label" data-i18n="firstStep">FIRST STEP</p>
-          <h2 id="decisionTitle" data-i18n="decisionTitle">What best describes the problem?</h2>
-          <div class="quick-list">
-            <a href="https://911dentist.org/tooth-pain/" target="_blank" rel="noopener">
-              <span class="number">01</span><span><b data-i18n="painSwelling">Severe pain or swelling</b><small data-i18n="painSwellingCopy">Possible infection, abscess, or nerve pain</small></span><span aria-hidden="true">→</span>
-            </a>
-            <a href="https://911dentist.org/broken-tooth/" target="_blank" rel="noopener">
-              <span class="number">02</span><span><b data-i18n="brokenTooth">Broken or knocked-out tooth</b><small data-i18n="brokenToothCopy">Time-sensitive dental trauma guidance</small></span><span aria-hidden="true">→</span>
-            </a>
-            <a href="https://911dentist.org/lost-filling-or-crown/" target="_blank" rel="noopener">
-              <span class="number">03</span><span><b data-i18n="lostRestoration">Lost filling or crown</b><small data-i18n="lostRestorationCopy">Protect the area until professional care</small></span><span aria-hidden="true">→</span>
-            </a>
-            <button data-view="emergency">
-              <span class="number">04</span><span><b data-i18n="notSure">I am not sure</b><small data-i18n="notSureCopy">Review warning signs and available next steps</small></span><span aria-hidden="true">→</span>
-            </button>
-          </div>
+        <h2 data-i18n="decisionTitle">What best describes the problem?</h2>
+        <div class="task-list">
+          <a href="https://911dentist.org/tooth-pain/"><b data-i18n="toothPain">Tooth pain</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/tooth-infection/"><b data-i18n="infectionSwelling">Infection or swelling</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/knocked-out-tooth/"><b data-i18n="knockedOut">Knocked-out tooth</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/broken-tooth/"><b data-i18n="brokenOnly">Broken tooth</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/lost-filling-or-crown/"><b data-i18n="lostFilling">Lost filling or crown</b><span aria-hidden="true">→</span></a>
         </div>
       </div>
-
-      <section class="path-section" aria-labelledby="pathTitle">
-        <div class="section-wrap">
-          <p class="eyebrow light" data-i18n="choosePath">CHOOSE YOUR PATH</p>
-          <h2 id="pathTitle" data-i18n="pathTitle">Three ways to move forward</h2>
-          <div class="path-grid">
-            <button class="path-card" data-view="emergency">
-              <span class="line-icon" aria-hidden="true">01</span>
-              <b data-i18n="emergencyGuidance">Emergency guidance</b>
-              <p data-i18n="emergencyGuidanceCopy">Recognize red flags and understand the safest immediate step.</p>
-              <span class="card-link"><span data-i18n="openGuidance">Open guidance</span> →</span>
-            </button>
-            <button class="path-card" data-view="consult">
-              <span class="line-icon" aria-hidden="true">02</span>
-              <b data-i18n="virtualConsult">Virtual consultation</b>
-              <p data-i18n="virtualConsultCopy">Compare the current $49 written and $149 live options.</p>
-              <span class="card-link"><span data-i18n="compareOptions">Compare options</span> →</span>
-            </button>
-            <a class="path-card" href="https://911dentist.org/dental-second-opinion/" target="_blank" rel="noopener">
-              <span class="line-icon" aria-hidden="true">03</span>
-              <b data-i18n="secondOpinion">Dental second opinion</b>
-              <p data-i18n="secondOpinionCopy">Understand options before major or irreversible dental treatment.</p>
-              <span class="card-link"><span data-i18n="learnMore">Learn more</span> →</span>
-            </a>
-          </div>
-        </div>
-      </section>
 
       <section class="section-wrap guide-preview" aria-labelledby="latestTitle">
         <div class="section-heading">
@@ -134,10 +89,11 @@
 
       <div class="section-heading page-heading"><div><p class="eyebrow" data-i18n="dentalNextStep">DENTAL NEXT STEP</p><h2 data-i18n="chooseSituation">Choose the closest situation</h2></div></div>
       <div class="condition-grid">
-        <a href="https://911dentist.org/tooth-pain/" target="_blank" rel="noopener"><span>01</span><h3 data-i18n="toothPain">Tooth pain</h3><p data-i18n="toothPainCopy">Severe, persistent, throbbing, or night pain.</p><b><span data-i18n="readGuide">Read guide</span> →</b></a>
-        <a href="https://911dentist.org/tooth-infection/" target="_blank" rel="noopener"><span>02</span><h3 data-i18n="infectionSwelling">Infection or swelling</h3><p data-i18n="infectionSwellingCopy">Swelling, drainage, fever, bad taste, or worsening pain.</p><b><span data-i18n="readGuide">Read guide</span> →</b></a>
-        <a href="https://911dentist.org/broken-tooth/" target="_blank" rel="noopener"><span>03</span><h3 data-i18n="brokenTrauma">Broken tooth or trauma</h3><p data-i18n="brokenTraumaCopy">Cracks, fractures, or a knocked-out tooth.</p><b><span data-i18n="readGuide">Read guide</span> →</b></a>
-        <a href="https://911dentist.org/lost-filling-or-crown/" target="_blank" rel="noopener"><span>04</span><h3 data-i18n="lostFilling">Lost filling or crown</h3><p data-i18n="lostFillingCopy">A missing restoration, sensitivity, or sharp edge.</p><b><span data-i18n="readGuide">Read guide</span> →</b></a>
+        <a href="https://911dentist.org/tooth-pain/" target="_blank" rel="noopener"><h3 data-i18n="toothPain">Tooth pain</h3><p data-i18n="toothPainCopy">Severe, persistent, throbbing, or night pain.</p><b><span data-i18n="readGuide">Read guide</span> →</b></a>
+        <a href="https://911dentist.org/tooth-infection/" target="_blank" rel="noopener"><h3 data-i18n="infectionSwelling">Infection or swelling</h3><p data-i18n="infectionSwellingCopy">Swelling, drainage, fever, bad taste, or worsening pain.</p><b><span data-i18n="readGuide">Read guide</span> →</b></a>
+        <a href="https://911dentist.org/broken-tooth/" target="_blank" rel="noopener"><h3 data-i18n="brokenTrauma">Broken tooth or trauma</h3><p data-i18n="brokenTraumaCopy">Cracks and fractures.</p><b><span data-i18n="readGuide">Read guide</span> →</b></a>
+        <a href="https://911dentist.org/lost-filling-or-crown/" target="_blank" rel="noopener"><h3 data-i18n="lostFilling">Lost filling or crown</h3><p data-i18n="lostFillingCopy">A missing restoration, sensitivity, or sharp edge.</p><b><span data-i18n="readGuide">Read guide</span> →</b></a>
+        <a href="https://911dentist.org/knocked-out-tooth/"><h3 data-i18n="knockedOut">Knocked-out tooth</h3><b data-i18n="readGuide">Read guide</b></a>
       </div>
 
       <section class="temporary-steps" aria-labelledby="temporaryTitle">
@@ -152,57 +108,63 @@
       </section>
 
       <div class="center-actions">
-        <a class="button primary" href="https://911dentist.org/emergency-dentist/" target="_blank" rel="noopener" data-i18n="continueEmergency">Continue on 911Dentist.org</a>
-        <button class="button secondary" data-view="consult" data-i18n="consultOptions">View consult options</button>
+        <button class="button primary" data-view="find" data-i18n="findDentist">Find a dentist</button>
+        <button class="button secondary" data-view="guides" data-i18n="viewGuides">View guides</button>
+        <button class="button secondary" data-view="consult" data-i18n="consultOptions">Check online consult availability</button>
       </div>
     </section>
 
     <section id="consult" class="view section-wrap page-view" aria-labelledby="consultTitle">
       <p class="eyebrow red" data-i18n="professionalGuidance">PROFESSIONAL GUIDANCE</p>
-      <h1 id="consultTitle" data-i18n="consultTitle">Choose your consultation path</h1>
-      <p class="lead narrow" data-i18n="consultIntro">Review the current options here. Payment, intake, and any uploads continue securely on 911Dentist.org.</p>
+      <h1 id="consultTitle" data-i18n="consultTitle">Check online consult availability</h1>
+      <p class="lead narrow" data-i18n="consultIntro">Enter your U.S. ZIP code on 911Dentist.org to check whether a dentist licensed in your state is available.</p>
 
-      <div class="pricing-grid">
+      <div class="pricing-grid service-grid">
         <article class="price-card">
-          <p class="price-label" data-i18n="flexible">FLEXIBLE OPTION</p>
-          <h2 data-i18n="simpleConsult">Simple Consult</h2>
-          <p class="price"><span>$</span>49 <small data-i18n="oneTime">one-time</small></p>
-          <p data-i18n="simpleIntro">Submit symptoms and photos for written guidance—no live call required.</p>
-          <ul><li data-i18n="simpleItem1">Written response within 48 hours</li><li data-i18n="simpleItem2">Urgency and next-step guidance</li><li data-i18n="simpleItem3">Best for mild or non-urgent concerns</li></ul>
-          <a class="button secondary full" href="https://911dentist.org/secure-your-consultation/" target="_blank" rel="noopener" data-i18n="viewSimple">View Simple Consult</a>
+          <h2 data-i18n="simpleConsult">Dentist Video Review</h2>
+          <p class="price">$69 <small data-i18n="oneTime">one-time</small></p>
+          <p data-i18n="simpleIntro">Get a recorded review from a dentist for a non-urgent question.</p>
+          <a class="button secondary full" href="https://911dentist.org/secure-your-consultation/#vd-simple-consult" data-i18n="viewSimple">Check recorded review availability</a>
         </article>
-        <article class="price-card featured">
-          <p class="price-label" data-i18n="recommended">RECOMMENDED</p>
+        <article class="price-card">
           <h2 data-i18n="liveConsult">Live Video Consult</h2>
-          <p class="price"><span>$</span>149 <small data-i18n="oneTime">one-time</small></p>
-          <p data-i18n="liveIntro">Speak directly with a dentist by video for urgent or more complex concerns.</p>
-          <ul><li data-i18n="liveItem1">Live video conversation</li><li data-i18n="liveItem2">Detailed symptom discussion</li><li data-i18n="liveItem3">Guidance on appropriate next steps</li></ul>
-          <a class="button primary full" href="https://911dentist.org/secure-your-consultation/" target="_blank" rel="noopener" data-i18n="viewLive">View Live Consult</a>
-        </article>
-        <article class="price-card snapshot">
-          <p class="price-label" data-i18n="beforeTreatment">BEFORE TREATMENT</p>
-          <h2 data-i18n="prioritySnapshot">Priority Second Opinion</h2>
-          <p class="price"><span>$</span>29 <small data-i18n="currentOption">current option</small></p>
-          <p data-i18n="snapshotIntro">Send your X-ray and your first dentist’s opinion (diagnosis or treatment plan) before a root canal, extraction, implant, or other major treatment.</p>
-          <ul><li data-i18n="snapshotItem1">Dentist-developed written guidance</li><li data-i18n="snapshotItem2">Treatment-option clarification</li><li data-i18n="snapshotItem3">Does not replace emergency care</li></ul>
-          <a class="button secondary full" href="https://911dentist.org/dental-second-opinion/" target="_blank" rel="noopener" data-i18n="viewSecondOpinion">View Second Opinion</a>
+          <p class="price">$149 <small data-i18n="oneTime">one-time</small></p>
+          <p data-i18n="liveIntro">Speak with a dentist in a live video appointment.</p>
+          <a class="button primary full" href="https://911dentist.org/secure-your-consultation/#vd-video-consult" data-i18n="viewLive">Check live consult availability</a>
         </article>
       </div>
+      <p class="handoff-note" data-i18n="secureHandoffCopy">Eligibility, intake, and payment are handled on 911Dentist.org.</p>
+    </section>
 
-      <div class="handoff-card">
-        <div class="privacy-mark" aria-hidden="true"></div>
-        <div><b data-i18n="secureHandoff">Secure handoff to 911Dentist.org</b><p data-i18n="secureHandoffCopy">This app does not process payments or accept medical information. The selected option opens the existing website workflow.</p></div>
+    <section id="find" class="view section-wrap page-view" aria-labelledby="findTitle">
+      <h1 id="findTitle" data-i18n="findDentist">Find a dentist</h1>
+      <p class="lead" data-i18n="directoryCopy">Search by ZIP code. The directory includes listings in California, Colorado, Arizona, and Texas. Call the practice to confirm availability.</p>
+      <div class="button-row">
+        <a class="button primary" href="https://911dentist.org/los-angeles-dentist-directory/" data-i18n="openDirectory">Search the dentist directory</a>
+        <a class="button secondary" href="https://911dentist.org/how-to-find-a-dentist-in-your-area/" data-i18n="noListing">What if there is no listing?</a>
       </div>
+    </section>
+
+    <section id="tools" class="view section-wrap page-view" aria-labelledby="toolsTitle">
+      <h1 id="toolsTitle" data-i18n="freeTools">Free dental tools</h1>
+      <p class="lead" data-i18n="toolsCopy">These tools open in English on 911Dentist.org. Cost estimates are for the U.S.</p>
+      <div class="task-list">
+          <a href="https://911dentist.org/dental-treatment-plan-decoder/"><b data-i18n="planDecoder">Decode a treatment plan</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/dental-xray-decoder/"><b data-i18n="xrayTool">Understand your X-ray type</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/dental-cost-estimator/"><b data-i18n="costTool">Estimate dental costs</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/dental-cost-estimator/#insurance"><b data-i18n="insuranceTool">Estimate costs with insurance</b><span aria-hidden="true">→</span></a>
+          <a href="https://911dentist.org/dental-second-opinion/"><b data-i18n="secondGuide">Read the second-opinion guide</b><span aria-hidden="true">→</span></a>
+        </div>
     </section>
 
     <section id="guides" class="view section-wrap page-view" aria-labelledby="guidesTitle">
       <p class="eyebrow red" data-i18n="learnPrepare">LEARN & PREPARE</p>
       <h1 id="guidesTitle" data-i18n="guidesTitle">Dental emergency guides</h1>
       <p class="lead narrow" data-i18n="guidesIntro">Search recent public articles from 911Dentist.org. Articles currently open in English; the app navigation and safety information are available in English and Swedish.</p>
-      <a class="install-card tool-card" href="https://911dentist.org/dental-treatment-plan-decoder/" target="_blank" rel="noopener"><span class="install-arrow" aria-hidden="true">≡</span><span><b data-i18n="planDecoder">Dental Treatment Plan Decoder</b><small data-i18n="planDecoderCopy">Free tool: what each line of your plan means and its typical U.S. price without insurance.</small></span><span aria-hidden="true">→</span></a>
-      <label class="search"><span class="sr-only" data-i18n="searchGuides">Search guides</span><input id="guideSearch" type="search" placeholder="Search guides" data-i18n-placeholder="searchGuides" autocomplete="off"><span aria-hidden="true"></span></label>
+      <div class="button-row"><a class="button secondary" href="https://911dentist.org/blog/" data-i18n="visitBlog">Browse all guides in English</a></div>
+      <label id="guideSearchRow" class="search"><span class="sr-only" data-i18n="searchGuides">Search recent guides</span><input id="guideSearch" type="search" placeholder="Search recent guides" data-i18n-placeholder="searchGuides" autocomplete="off"><span aria-hidden="true"></span></label>
       <div id="guideGrid" class="guide-grid full-grid" aria-live="polite"></div>
-      <div id="guideNotice" class="notice" hidden><p data-i18n="guidesUnavailable">Recent guides are temporarily unavailable here.</p><a class="button primary" href="https://911dentist.org/blog/" target="_blank" rel="noopener" data-i18n="visitBlog">Visit the 911Dentist blog</a></div>
+      <p id="guideNotice" class="notice" role="status" hidden data-i18n="guidesUnavailable">Recent guides are temporarily unavailable here.</p>
     </section>
 
     <section id="more" class="view section-wrap page-view" aria-labelledby="moreTitle">

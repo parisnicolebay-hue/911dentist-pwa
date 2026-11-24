@@ -1,4 +1,4 @@
-const CACHE = '911dentist-shell-v4';
+const CACHE = '911dentist-shell-v5';
 const SHELL = ['./','./index.html','./styles.css','./app.js','./manifest.webmanifest','./icons/icon.svg','./icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png'];
 
 self.addEventListener('install', event => {
@@ -6,7 +6,7 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim()));
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key.startsWith('911dentist-shell-') && key !== CACHE).map(key => caches.delete(key)))).then(() => self.clients.claim()));
 });
 
 self.addEventListener('fetch', event => {
@@ -15,11 +15,12 @@ self.addEventListener('fetch', event => {
 
   if(url.hostname === '911dentist.org'){
     if(url.pathname.includes('/wp-json/wp/v2/posts')){
-      event.respondWith(fetch(event.request).then(response => {
-        const copy = response.clone();
-        caches.open(CACHE).then(cache => cache.put(event.request, copy));
+      event.respondWith(fetch(event.request).then(async response => {
+        if (!response.ok) throw new Error('Guide feed unavailable');
+        const cache = await caches.open(CACHE);
+        await cache.put(event.request, response.clone()).catch(() => {});
         return response;
-      }).catch(() => caches.match(event.request)));
+      }).catch(async () => (await caches.match(event.request)) || Response.error()));
     }
     return;
   }

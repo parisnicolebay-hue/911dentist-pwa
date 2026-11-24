@@ -17,3 +17,89 @@
 @media(min-width:940px){.site-header{height:80px}.desktop-nav{display:flex}.header-help{display:block}.mobile-nav{display:none}.site-footer{padding-bottom:55px}.hero{grid-template-columns:1.03fr .97fr;align-items:center;padding:77px 0 82px}.decision-panel{padding:31px}.guide-grid{grid-template-columns:repeat(3,1fr)}.condition-grid{grid-template-columns:repeat(4,1fr)}.pricing-grid{grid-template-columns:repeat(3,1fr)}.price-card{min-height:575px}.page-view{padding-top:75px}.site-footer{text-align:left;display:grid;grid-template-columns:1.2fr 1fr 1fr;align-items:start;gap:25px}.footer-brand{justify-content:flex-start}.site-footer p{margin:0}.site-footer>div:nth-of-type(2){justify-content:flex-start}.site-footer small{grid-column:1/-1}.full-grid{grid-template-columns:repeat(3,1fr)}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
 .tool-card{margin:26px 0 0;max-width:650px}
+
+/* Patient tasks and service handoffs */
+[hidden] { display: none !important; }
+
+:where(a, button, input):focus-visible {
+  outline: 3px solid #167b78;
+  outline-offset: 3px;
+}
+
+.site-header :focus-visible {
+  outline-color: #a7e1db;
+}
+
+.home-tasks {
+  max-width: 760px;
+  padding-block: clamp(24px, 5vw, 56px) 12px;
+}
+
+.home-tasks h1 {
+  font-size: clamp(2rem, 5vw, 3.75rem);
+}
+
+.home-tasks h2 {
+  margin-top: 32px;
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+.task-list {
+  display: grid;
+  gap: 8px;
+  max-width: 760px;
+  margin-top: 16px;
+}
+
+.task-list > :is(a, button) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 52px;
+  padding: 12px 16px;
+  color: var(--navy);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.task-list > :is(a, button):hover {
+  border-color: var(--teal);
+}
+
+.home-tasks .task-list:first-of-type button:first-child,
+.button.primary {
+  background: var(--navy-2);
+  color: #fff;
+}
+
+.button.primary:hover { background: var(--navy-3); }
+.task-list + h2, .handoff-note { margin-top: 24px; }
+.condition-grid a { min-height: 0; }
+.condition-grid h3 { margin-top: 0; }
+.guide-preview { padding-top: 32px; }
+.section-heading { flex-wrap: wrap; }
+.mobile-nav button { min-width: 0; padding-inline: 3px; line-height: 1.2; overflow-wrap: anywhere; }
+.mobile-nav button.active { color: var(--navy); background: var(--soft); border-radius: 8px; }
+.site-footer { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
+html { scroll-padding-top: 90px; scroll-padding-bottom: calc(85px + env(safe-area-inset-bottom)); }
+.service-grid .price-card { min-height: 0; }
+.service-grid .price-card .button { margin-top: auto; }
+
+@media (min-width: 720px) {
+  .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .task-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 940px) {
+  .site-footer { padding-bottom: 55px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .skeleton { animation: none; }
+}
