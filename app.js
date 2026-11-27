@@ -372,7 +372,18 @@ document.getElementById('installButton').addEventListener('click', async () => {
 window.addEventListener('popstate', () => showView((location.hash || '#home').slice(1), false));
 window.addEventListener('online', () => toast(t('backOnline')));
 window.addEventListener('offline', () => toast(t('offline')));
-if('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('./sw.js', {updateViaCache: 'none'});
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) registration.update().catch(() => {});
+      });
+    } catch {
+      // The online app remains available if offline installation is unsupported.
+    }
+  });
+}
 
 showView((location.hash || '#home').slice(1), false);
 applyLanguage();

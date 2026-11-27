@@ -104,3 +104,43 @@ html { scroll-padding-top: 90px; scroll-padding-bottom: calc(85px + env(safe-are
   html { scroll-behavior: auto; }
   .skeleton { animation: none; }
 }
+
+/* Shared visual theme */
+:root {
+  --navy: #12333b;
+  --navy-2: #174b45;
+  --navy-3: #0f3d38;
+  --teal: #167365;
+  --paper: #f2f7f5;
+  --ink: #142f34;
+  --line: #c9dad5;
+}
+
+.site-header { background: var(--navy); }
+
+h1, h2, .condition-grid h3, .guide-body h3 {
+  font-family: inherit;
+  font-weight: 800;
+}
+
+.home-tasks .task-list:first-of-type > button {
+  min-height: 58px;
+  border-color: #bdd9d0;
+  background: #e3f1eb;
+}
+
+.home-tasks .task-list:first-of-type > button:first-child {
+  background: var(--navy-2);
+  color: #fff;
+}
+
+.home-tasks .task-list:first-of-type > button:first-child:hover {
+  background: var(--navy-3);
+}
+
+.mobile-nav button.active {
+  background: #dceee6;
+  color: #174b45;
+}
+
+.site-footer { background: var(--navy); }

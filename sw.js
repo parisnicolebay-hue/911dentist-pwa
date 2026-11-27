@@ -1,8 +1,8 @@
-const CACHE = '911dentist-shell-v7';
-const SHELL = ['./','./index.html','./styles.css?v=6','./app.js?v=6','./manifest.webmanifest','./icons/icon.svg','./icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png'];
+const CACHE = '911dentist-shell-v8';
+const SHELL = ['./','./index.html','./styles.css?v=7','./app.js?v=7','./manifest.webmanifest','./icons/icon.svg','./icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png'];
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
+  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL.map(path => new Request(path, {cache: 'reload'})))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', event => {
@@ -28,7 +28,7 @@ self.addEventListener('fetch', event => {
   if(url.origin !== self.location.origin) return;
 
   if(event.request.mode === 'navigate'){
-    event.respondWith(fetch(event.request).catch(() => caches.match('./index.html')));
+    event.respondWith(fetch(event.request, {cache: 'no-cache'}).catch(() => caches.match('./index.html')));
     return;
   }
 
