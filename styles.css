@@ -96,6 +96,7 @@ html { scroll-padding-top: 90px; scroll-padding-bottom: calc(85px + env(safe-are
 }
 
 @media (min-width: 940px) {
+  .service-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .site-footer { padding-bottom: 55px; }
 }
 

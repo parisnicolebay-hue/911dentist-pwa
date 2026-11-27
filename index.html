@@ -15,7 +15,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
-  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
   <title>911Dentist — Emergency Dental Guidance</title>
 </head>
 <body>
@@ -132,6 +132,12 @@
           <p data-i18n="liveIntro">Speak with a dentist in a live video appointment.</p>
           <a class="button primary full" href="https://911dentist.org/secure-your-consultation/#vd-video-consult" data-i18n="viewLive">Check live consult availability</a>
         </article>
+        <article class="price-card">
+          <h2 data-i18n="xraySecondOpinion">X-ray Second Opinion</h2>
+          <p class="price">$29 <small data-i18n="oneTime">one-time</small></p>
+          <p data-i18n="xraySecondIntro">Ask a dentist to review your dental X-ray and your first dentist’s diagnosis or treatment plan.</p>
+          <a class="button secondary full" href="https://911dentist.org/secure-your-consultation/#vd-priority-second-opinion" data-i18n="viewXraySecond">Check second-opinion availability</a>
+        </article>
       </div>
       <p class="handoff-note" data-i18n="secureHandoffCopy">Eligibility, intake, and payment are handled on 911Dentist.org.</p>
     </section>
@@ -155,6 +161,9 @@
           <a href="https://911dentist.org/dental-cost-estimator/#insurance"><b data-i18n="insuranceTool">Estimate costs with insurance</b><span aria-hidden="true">→</span></a>
           <a href="https://911dentist.org/dental-second-opinion/"><b data-i18n="secondGuide">Read the second-opinion guide</b><span aria-hidden="true">→</span></a>
         </div>
+      <div class="button-row">
+        <a class="button secondary" href="#consult" data-view="consult" data-i18n="exploreXraySecond">See the paid X-ray second opinion</a>
+      </div>
     </section>
 
     <section id="guides" class="view section-wrap page-view" aria-labelledby="guidesTitle">
@@ -208,6 +217,6 @@
 
   <nav class="mobile-nav" aria-label="Mobile navigation"></nav>
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=5" defer></script>
+  <script src="app.js?v=6" defer></script>
 </body>
 </html>
