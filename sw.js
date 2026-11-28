@@ -1,5 +1,5 @@
-const CACHE = '911dentist-shell-v8';
-const SHELL = ['./','./index.html','./styles.css?v=7','./app.js?v=7','./manifest.webmanifest','./icons/icon.svg','./icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png'];
+const CACHE = '911dentist-shell-v9';
+const SHELL = ['./','./index.html','./styles.css?v=8','./app.js?v=7','./manifest.webmanifest','./icons/icon.svg','./icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL.map(path => new Request(path, {cache: 'reload'})))).then(() => self.skipWaiting()));
